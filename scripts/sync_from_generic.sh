@@ -16,7 +16,6 @@ minitage.buildout-prod.cfg
 README.*
 etc/
 minilays/
-scripts/
 "
 for f in $files;do
     rsync -aKzv t/$f $f

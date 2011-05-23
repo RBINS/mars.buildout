@@ -40,6 +40,7 @@ sed -re "/\[sources\]/{
         a bibliograph.parsing        = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/bibliograph.parsing/trunk
         a bibliograph.rendering      = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/bibliograph.rendering/trunk
         a marsapp.bibliography       = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/marsapp.bibliography/trunk
+        a marsapp.csvreplicata       = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/marsapp.csvreplicata/trunk
         a marsapp.categories         = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/marsapp.categories/trunk
         a marsapp.content            = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/marsapp.content/trunk
         a marsapp.helpers            = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/marsapp.helpers/trunk
@@ -58,6 +59,7 @@ sed -re "/auto-checkout \+=/{
         a \    bibliograph.rendering      
         a \    marsapp.bibliography       
         a \    marsapp.categories         
+        a \    marsapp.csvreplicata         
         a \    marsapp.content            
         a \    marsapp.helpers            
         a \    marsapp.migration          
@@ -75,6 +77,7 @@ sed -re "/eggs \+=.*buildout:eggs/{
         a \    marsapp.bibliography       
         a \    marsapp.categories         
         a \    marsapp.content            
+        a \    marsapp.csvreplicata            
         a \    marsapp.helpers            
         a \    marsapp.migration          
         a \    marsapp.policy             
@@ -89,6 +92,7 @@ sed -re "/zcml \+=/{
         a \    bibliograph.rendering      
         a \    marsapp.bibliography       
         a \    marsapp.categories         
+        a \    marsapp.csvreplicata         
         a \    marsapp.content            
         a \    marsapp.helpers            
         a \    marsapp.migration          

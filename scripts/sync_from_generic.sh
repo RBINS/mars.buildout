@@ -36,6 +36,16 @@ sed -re "/\[sources\]/{
         a $PROJECT.skin =    svn $EGGS_IMPORT_URL/$PROJECT.skin/trunk
         a $PROJECT.tma =     svn $EGGS_IMPORT_URL/$PROJECT.tma/trunk
         a $PROJECT.testing = svn $EGGS_IMPORT_URL/$PROJECT.testing/trunk
+        a bibliograph.core           = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/bibliograph.core/trunk
+        a bibliograph.parsing        = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/bibliograph.parsing/trunk
+        a bibliograph.rendering      = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/bibliograph.rendering/trunk
+        a marsapp.bibliography       = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/marsapp.bibliography/trunk
+        a marsapp.categories         = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/marsapp.categories/trunk
+        a marsapp.content            = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/marsapp.content/trunk
+        a marsapp.helpers            = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/marsapp.helpers/trunk
+        a marsapp.migration          = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/marsapp.migration/trunk
+        a marsapp.policy             = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/marsapp.policy/trunk
+        a Products.CMFBibliographyAT = svn https://subversion.makina-corpus.net/scrumpy/mars/eggs/Products.CMFBibliographyAT/trunk 
 }" -i  etc/project/sources.cfg
 sed -re "s:(src/)?$PROJECT\.((skin)|(tma)|(policy)|(testing))::g" -i etc/project/$PROJECT.cfg
 sed -re "/auto-checkout \+=/{
@@ -43,17 +53,47 @@ sed -re "/auto-checkout \+=/{
         a \    $PROJECT.tma
         a \    $PROJECT.skin
         a \    $PROJECT.testing
+        a \    bibliograph.core           
+        a \    bibliograph.parsing        
+        a \    bibliograph.rendering      
+        a \    marsapp.bibliography       
+        a \    marsapp.categories         
+        a \    marsapp.content            
+        a \    marsapp.helpers            
+        a \    marsapp.migration          
+        a \    marsapp.policy             
+        a \    Products.CMFBibliographyAT 
 }"  -i etc/project/sources.cfg
 sed -re "/eggs \+=.*buildout:eggs/{
         a \    $PROJECT.policy
         a \    $PROJECT.tma
         a \    $PROJECT.skin
         a \    $PROJECT.testing
+        a \    bibliograph.core           
+        a \    bibliograph.parsing        
+        a \    bibliograph.rendering      
+        a \    marsapp.bibliography       
+        a \    marsapp.categories         
+        a \    marsapp.content            
+        a \    marsapp.helpers            
+        a \    marsapp.migration          
+        a \    marsapp.policy             
+        a \    Products.CMFBibliographyAT 
 }"  -i etc/project/$PROJECT.cfg
 sed -re "/zcml \+=/{
         a \    $PROJECT.policy
         a \    $PROJECT.tma
         a \    $PROJECT.skin
+        a \    bibliograph.core           
+        a \    bibliograph.parsing        
+        a \    bibliograph.rendering      
+        a \    marsapp.bibliography       
+        a \    marsapp.categories         
+        a \    marsapp.content            
+        a \    marsapp.helpers            
+        a \    marsapp.migration          
+        a \    marsapp.policy             
+        a \    Products.CMFBibliographyAT 
 }"  -i etc/project/$PROJECT.cfg
 sed -re "s/.*:default/    ${PROJECT}.policy:default/g" -i  etc/project/$PROJECT.cfg
 sed -re "s/(extends=.*)/\1 etc\/sys\/settings-prod.cfg/g" -i buildout-prod.cfg

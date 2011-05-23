@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 cd $(dirname $0)/..
 PROJECT="mars"
-IMPORT_URL="https://subversion.makina-corpus.net/scrumpy/mars/buildout"
+IMPORT_URL="https://subversion.makina-corpus.net/scrumpy/mars/"
 cd $(dirname $0)/..
 [[ ! -d t ]] && mkdir t
 rm -rf t/*

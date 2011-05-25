@@ -1,6 +1,6 @@
-* A project has been created in /tmp/tmpQtxeN8.
+* A project has been created in /tmp/tmpqdF4Nw.
 
-* A minilay has been installed in /tmp/tmpQtxeN8/minilays/mars.
+* A minilay has been installed in /tmp/tmpqdF4Nw/minilays/mars.
 * It contains those minilbuilds:
 	- mars-light
 	- mars-buildbot

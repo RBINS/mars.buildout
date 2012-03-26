@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ############################################################################
 #                                                                          #
 #             copyright (c) 2004 ITB, Humboldt-University Berlin           #
@@ -5,10 +6,19 @@
 #                                                                          #
 ############################################################################
 
-"""REFRenderer class"""
+"""RefRenderer class"""
 
 # Python stuff
 import os
+
+# zope3 imports
+from zope.component import getMultiAdapter
+from zope.component import queryAdapter
+from zope.component import getUtility
+from zope.interface import implements
+from zope.publisher.browser import TestRequest
+from zope.traversing.browser.absoluteurl import absoluteURL
+from zope.interface import implements
 
 # Zope stuff
 from Globals import InitializeClass
@@ -18,52 +28,26 @@ from App.Dialogs import MessageDialog
 from Products.CMFCore.utils import getToolByName
 
 # Bibliography stuff
-from Products.CMFBibliographyAT.BibliographyRenderer \
-     import IBibliographyRenderer, BibliographyRenderer
+from bibliograph.rendering.renderers.base import BaseRenderer
+from bibliograph.rendering.interfaces import IReferenceRenderer, IBibliographyRenderer
+from bibliograph.core.interfaces import IBibliographyExport
+from bibliograph.rendering.utility import UtilityBaseClass
 
-
-class REFRenderer(BibliographyRenderer):
+class RefRendererView(BaseRenderer):
     """
-    specific REF renderer
+    specific Ref renderer
     """
-
-    __implements__ = (IBibliographyRenderer ,)
-
-    meta_type = "REF Renderer"
-
-    format = {'name':'Ref',
-              'extension':'REF'}
-
-    def __init__(self,
-                 id = 'ref',
-                 title = "Ref renderer - renderer for local RBINS bliographic datamodel"):
-        """
-        initializes id and title
-        """
-        self.id = id
-        self.title = title
-
-    def render(self, object):
-        """
-        renders a bibliography object(folder, list, ...) in Ref format
-        """
-        bib_tool = getToolByName(object, 'portal_bibliography')
-        ref_types = bib_tool.getReferenceTypes()
-        if object.portal_type in ref_types:
-            return self.renderEntry(object)
-        if object.isPrincipiaFolderish:
-            entries = object.contentValues(ref_types)
-            rendered = [self.renderEntry(entry) \
-                        for entry in entries]
-            return ''.join(rendered)
-        return ''
-        
-
-    def renderEntry(self, entry):
+    implements(IReferenceRenderer)
+    file_extension = 'REF'
+    def render(self, title_force_uppercase=False, omit_fields=[],
+              msdos_eol_style=None, # not used
+              resolve_unicode=None, # not used
+              output_encoding=None, # not used
+              ):
         """
         renders a BibliographyEntry object in Ref format
         """
-        
+        entry = self.context
         ref = {}
         ref['A'] = "%A " + entry.Authors(sep="\n%A ",
                                          lastsep="\n%A ",
@@ -73,7 +57,7 @@ class REFRenderer(BibliographyRenderer):
         value = self.AuthorURLs(entry)
         if value:
           ref['O'] = "\n%O " + '\n%O '.join(''.join(value).split('\n'))
-        
+
         value = entry.getPublication_year().strip()
         if value:
           if value!='':
@@ -237,17 +221,68 @@ class REFRenderer(BibliographyRenderer):
           a_URLs = a_URLs[:-5]
         return a_URLs[:-5]
 
+class RefRenderer(UtilityBaseClass):
+    """An implementation of IBibliographyRenderer that renders to ref.
+    """
+    implements(IBibliographyRenderer)
+    default_encoding = u''
+    __name__ = u'REF'
+    source_format = u''
+    target_format = u'REF'
+    description = u'Export to native REF format'
+    view_name = u'ref'
+    available = True
+    enabled = True
 
-# Class instanciation
-InitializeClass(REFRenderer)
+    def render(self, objects,
+                     title_force_uppercase=False,
+                     output_encoding=None,
+                     msdos_eol_style=False,
+                     omit_fields_mapping={}):
+        """ Export a bunch of bibliographic entries in ref format"""
+        if isinstance(objects, (list, tuple)):
+            context = objects[0]
+        else:
+            context = objects
 
-def manage_addREFRenderer(self, REQUEST=None):
-    """ """
-    try:
-        self._setObject('REF', REFRenderer())
-    except:
-        return MessageDialog(
-            title='Bibliography tool warning message',
-            message='The renderer you attempted to add already exists.',
-            action='manage_main')
-    return self.manage_main(self, REQUEST)
+        if not IBibliographyExport.providedBy(context):
+            try:
+                context = context.aq_parent
+            except AttributeError:
+                pass
+
+
+        object = entry = self.context
+        bib_tool = getToolByName(object, 'portal_bibliography')
+        ref_types = bib_tool.getReferenceTypes()
+        if object.portal_type in ref_types:
+            return self.renderEntry(object)
+        for obj in entries:
+            ref = queryAdapter(obj, interface=IBibliographicReference,
+                                    name=self.__name__)
+            if ref is None:
+                # if there is no named adapter, get the default adapter
+                # compatibility with older versions
+                ref = IBibliographicReference(obj, None)
+            if ref is None:
+                continue
+
+            # do rendering for entry
+            view = getMultiAdapter((ref, request), name=self.view_name)
+            omit_fields = omit_fields_mapping.get(ref.publication_type, [])
+            bibtex_string = view.render(title_force_uppercase=title_force_uppercase,
+                                        omit_fields=omit_fields
+                                        )
+            rendered.append(bibtex_string)
+
+        rendered = ''.join(rendered)
+        if msdos_eol_style:
+            rendered = rendered.replace('\n', '\r\n')
+        return rendered
+        if object.isPrincipiaFolderish:
+            entries = object.contentValues(ref_types)
+            rendered = [self.renderEntry(entry) \
+                        for entry in entries]
+            return ''.join(rendered)
+        return ''
+

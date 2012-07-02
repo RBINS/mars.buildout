@@ -23,3 +23,12 @@ sys
 t
 var
 src.mrdeveloper/zopelib/zopelib.egg-info
+
+cron_scripts/
+etc/apache/100-mars.reverseproxy.conf
+etc/hudson/mars/build/activate_env.sh
+etc/hudson/mars/config.xml
+etc/init.d/
+etc/logrotate.conf
+etc/sys/settings-prod.cfg
+

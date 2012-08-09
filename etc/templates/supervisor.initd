@@ -16,7 +16,7 @@
 ### END INIT INFO
 
 
-TMPDIR="${buildout:directory}/var/tmp"
+TMPDIR="${locations:tmp}"
 EFFECTIVE_USER="${users:zope}"
 INSTANCE_PATH="${buildout:directory}"
 INSTANCE_NAME="$(basename ${buildout:directory})"

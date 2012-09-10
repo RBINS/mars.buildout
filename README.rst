@@ -2,7 +2,6 @@
 BUILDOUT FOR mars DOCUMENTATION
 ==============================================================
 
-
 INSTALLING THIS PROJECT VITHOUT MINITAGE
 -----------------------------------------
 ::
@@ -23,7 +22,7 @@ Before doing anything in your project just after being installed, just source th
     source $MT/zope/mars/sys/share/minitage/minitage.env # env file is generated with $MT/bin/paster create -t minitage.instances.env mars
 
 THE MINITAGE DANCE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 ::
 
     export MT=/minitage
@@ -39,8 +38,7 @@ THE MINITAGE DANCE
 
 CREATE A FIRST PLONESITE OBJECT
 ---------------------------------
-Run bin/buildout -c <CONFIG_FILE> install newplonesite
-
+Just run your plone and install mars
 
 PLAYING WITH DATAFS & PROJECT DATABASES
 -------------------------------------------
@@ -67,30 +65,22 @@ To make your application safe for production, run the ``(minitage.)buildout-prod
 It extends this one with additionnal crontabs and backup scripts and some additionnal instances creation.
 
 
-BASE BUILDOUTS WHICH DO ONLY AGGREGATE PARTS FROM THERE & THERE
+BASE BUILDOUTS WHICH DO ONLY SCHEDULE PARTS FROM THERE & THERE
 -------------------------------------------------------------------
-Love to know that Minitage support includes xml libs, ldap, dbs; python, dependencies & common eggs cache for things like lxml or PIL), subversion & much more.
+Love to know that Minitage support includes xml libs, ldap, dbs; python, dependencies & common eggs cache for things like lxml or Pillow), subversion & much more.
 ::
 
-    |-- minitage.buildout-dev.cfg   -> buildout for development with minitage support
-    |-- buildout-dev.cfg                     -> buildout for development
-    |-- minitage.buildout-prod.cfg  -> buildout for production  with minitage support
-    |-- buildout-prod.cfg                    -> buildout for production
-    |-- etc/minitage/minitage.cfg -> some buildout tweaks to run in the best of the world with minitage
-    |-- etc/base.cfg       -> The base buildout
+    |-- etc/base.cfg               -> The base buildout
+    |-- buildout-prod.cfg          -> buildout for production
+    |-- buildout-dev.cfg           -> buildout for development
+    |-- etc/minitage/minitage.cfg  -> some buildout tweaks to run in the best of the world with minitage
+    |-- minitage.buildout-prod.cfg -> buildout for production  with minitage support
+    |-- minitage.buildout-dev.cfg  -> buildout for development with minitage support
 
 
 PLONE OFFICIAL BUILDOUTS INTEGRATION
 --------------------------------------
-The original ``etc/plone/plone3.version.cfg`` is the original pinned version file for your plone3 release maintened by the official plone folks.
-The parts in this buildout extends/overwrite this file, you can read it to get additionnal documentation.
-You must enter specific project settings in the ``etc/mars.cfg`` file.
-::
-
-    etc/plone/
-    `-- plone4.versions.cfg    -> official plone buildout kgs
-    `-- zope2.versions.cfg    -> official zope2 buildout kgs
-    `-- experimental.cfg       -> experimental plone code (not used by default just here for your convenients & personal manual use)
+In ``etc/base.cfg``, we extends directly plone release versions & sources files.
 
 
 PROJECT SETTINGS
@@ -124,22 +114,15 @@ SYSTEM ADMINISTRATORS RELATED FILES
     `-- settings.cfg            -> various settings (crons hours, hosts, installation paths, ports, passwords)
 
 
-CRONS
-~~~~~~
-::
-
-    |-- etc/cron_scripts/fss_daily.sh   -> backup script for fss
-
-
 REVERSE PROXY
 --------------
 We generate two virtualhosts for a cliassical apache setup, mostly ready but feel free to copy/adapt.
 ::
     etc/apache/
-    |-- 100-mars.reverseproxy.conf                     -> a vhost for ruse with a standalone plone (even with haproxy in front of.)
+    |-- 100-mars.reverseproxy.conf     -> a vhost for ruse with a standalone plone (even with haproxy in front of.)
     `-- apache.cfg
     etc/templates/apache/
-    |-- 100-mars.reverseproxy.conf.in                   -> Template for a vhost for ruse with a standalone plone (even with haproxy in front of.)
+    |-- 100-mars.reverseproxy.conf.in  -> Template for a vhost for ruse with a standalone plone (even with haproxy in front of.)
 
 In settings.cfg you have now some settings for declaring which host is your reverse proxy backend & the vhost mounting:
     * hosts:zope-front / ports:zope-front                              -> zope front backend
@@ -152,7 +135,6 @@ CONFIGURATION TEMPLATES
     etc/templates/
     |-- balancer.conf.template      -> haproxy template.
     |                                  Copy or ln the generated file 'etc/loadbalancing/balancer.conf' to your haproxy installation if any.
-    |-- fss_daily.sh.in             -> FSS daily backup script template
     `-- logrotate.conf.template     -> logrotate configuration file template for your Zope logs
     `-- supervisor.initd            -> template for supervisor init script
 
@@ -162,7 +144,6 @@ BACKENDS
 ::
 
     etc/backends/
-    |-- etc/backends/fss.cfg                   -> Filestorage configuration if any
     |-- etc/backends/relstorage.cfg            -> relstorage configuration if any
     |-- etc/backends/zeo.cfg                   -> zeoserver configuration if any
     `-- etc/backends/zodb.cfg                  -> zodb configuration if any
@@ -174,11 +155,10 @@ We provide a part to generate the etc/mars-kgs.cfg file.
 This will allow you to freeze software versions known to work with your project and make reproducible environment.
 This file will be generated the first time that you run buildout.
 To un it, just run bin/buildout -vvvvvvc <CONFIG_FILE> install kgs
-To unlock the versions, cmment out the according statement ``etc/project/mars-kgs}.cfg`` in the extends option of the mars.cfg gile.
-
+Then sync the content of the kgs file with ``etc/project/versions.cfg``.
 
 NOTES ABOUT RELSTORAGE SUPPORT
-------------~~~~~~~-------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 We use the ZODB as an egg which is patched during installation, please see ``etc/project/patches.cfg``
 
 
@@ -274,4 +254,4 @@ For example, to add a postgresql instance to your project, you will have to issu
     * Then to start the postgres : zope/mars/sys/etc/init.d/mars_postgresql restart
 
 
-# vim:set ft=rst:
+.. vim:set ft=rst:

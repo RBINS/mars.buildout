@@ -1,38 +1,36 @@
 ==============================================================
-MINITAGE.PLONE3 BUILDOUT FOR mars
+BUILDOUT FOR mars DOCUMENTATION
 ==============================================================
 
-WARNING ABOUT BUILOOUT BOOTSTRAP WARNING
---------------------------------------------
 
-        !!!    Be sure to use zc.buildout >= 1.4.3, or you ll have errors or bugs.    !!!
+INSTALLING THIS PROJECT VITHOUT MINITAGE
+-----------------------------------------
+::
 
-If you are using the standalone (choose to answer inside_minitage=no), you must ensure to do the
-$python bootstrap.py dance with a python compatible with the targeted zope installation (python 2.4/plone3 python 2.6/plone4)
-eg: cd mars && ${buildout:directory}/../../dependencies/python-2.7/parts/part/bin/python bootstrap.py && bin/buildout -vvvvvvc <CONFIG_FILE>
+    source /minitage/bin/activate
+    git clone ssh://git@github.com/RBINS/mars.buildout.git mars
+    cd mars
+    python bootstrap.py -dc buildout-(dev/prod).cfg
+    bin/buildout -vvvvvNc -dc buildout-(dev/prod).cfg
 
-
-Minitage users, don't worry about that, all is setted for you in the two minibuilds created for you,
-just issue minimerge -v <MINIBUILD_NAME> after installing the minilay in your MINITAGE/minilays directory.
-
-
+INSTALLING THIS PROJECT VITH MINITAGE
+--------------------------------------
 ALWAYS USE THE MINITAGE ENVIRONMENT FILE INSIDE A MINITAGE
---------------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Before doing anything in your project just after being installed, just source the environment file in your current shell::
 
     source $MT/zope/mars/sys/share/minitage/minitage.env # env file is generated with $MT/bin/paster create -t minitage.instances.env mars
 
-
-INSTALLING THIS PROJECT VITH MINITAGE
---------------------------------------
+THE MINITAGE DANCE
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ::
 
     export MT=/minitage
     virtualenv --no-site-packages --distribute $MT
     source /minitage/bin/activate
     easy_install -U minitage.core minitage.paste
-    hg clone http://hg.foo.net $MT/minilays/mars
+    git clone ssh://git@github.com/RBINS/mars.minilay.git $MT/minilays/mars
     minimerge -v mars
     #minimerge -v mars-prod
     source $MT/zope/mars/sys/share/minitage/minitage.env

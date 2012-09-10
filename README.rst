@@ -2,7 +2,7 @@
 BUILDOUT FOR mars DOCUMENTATION
 ==============================================================
 
-INSTALLING THIS PROJECT VITHOUT MINITAGE
+INSTALLING THIS PROJECT WITHOUT MINITAGE
 -----------------------------------------
 ::
 

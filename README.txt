@@ -9,7 +9,7 @@ WARNING ABOUT BUILOOUT BOOTSTRAP WARNING
 
 If you are using the standalone (choose to answer inside_minitage=no), you must ensure to do the
 $python bootstrap.py dance with a python compatible with the targeted zope installation (python 2.4/plone3 python 2.6/plone4)
-eg: cd mars && python2.4 bootstrap.py && bin/buildout -vvvvvvc <CONFIG_FILE>
+eg: cd mars && ${buildout:directory}/../../dependencies/python-2.7/parts/part/bin/python bootstrap.py && bin/buildout -vvvvvvc <CONFIG_FILE>
 
 
 Minitage users, don't worry about that, all is setted for you in the two minibuilds created for you,
@@ -32,10 +32,9 @@ INSTALLING THIS PROJECT VITH MINITAGE
     virtualenv --no-site-packages --distribute $MT
     source /minitage/bin/activate
     easy_install -U minitage.core minitage.paste
-    svn co https://subversion.makina-corpus.net/scrumpy/mars/buildout/minilays/mars $MT/minilays/mars
+    hg clone http://hg.foo.net $MT/minilays/mars
     minimerge -v mars
     #minimerge -v mars-prod
-    $MT/bin/paster create -t minitage.instances.env mars #(-prod)
     source $MT/zope/mars/sys/share/minitage/minitage.env
     cd $INS #enjoy !
 
@@ -133,58 +132,6 @@ CRONS
 
     |-- etc/cron_scripts/fss_daily.sh   -> backup script for fss
 
-DELIVERANCE SUPPORT
------------------------
-
-To setup correctly the reverse proxy front end:
-*PLEASE READ THE REVERSE PROXY SECTION BELOW*
-
-
-Layout
-~~~~~~~~~
-::
-
-    |-- etc/deliverance
-        |-- etc/deliverance/deliverance.cfg      -> buildout used for deliverance component installations
-        |-- etc/deliverance/deliverance.ini      -> PasteDeploy configuration file (paster serve etc/deliverance/deliverance.ini)
-        |-- etc/deliverance/deliverance-prod.ini -> PasteDeploy configuration file (paster serve etc/deliverance/deliverance.ini) (PRODUCTIO?)
-        `-- etc/deliverance/deliverance.xml      -> Main Deliverance rules file
-    |-- etc/templates
-        |-- etc/templates/deliverance/deliverance.ini.in      -> PasteDeploy configuration file template (paster serve etc/deliverance/deliverance.ini)
-        |-- etc/templates/deliverance/deliverance-prod.ini.in -> PasteDeploy configuration file template (paster serve etc/deliverance/deliverance.ini)
-        `-- etc/templates/deliverance/deliverance.xml.in      -> Main Deliverance rules file template
-
-notes
-~~~~~~~~~~~~~~
-- deliverance is launched and monitored with supervisord
-- Deliverance do not use the proxy mode but *the WSGI middleware*, and use PasteDeploy to fire the server.
-  The part triggering its contruction is ``deliverance_ini`` && ``deliverance_prod_ini``
-- Settings can be as usual changed by editing ``etc/sys/settings.cfg``
-  * hosts:deliverance / ports:deliverance / locations:deliverance-themes -> The deliverance server itself  & the default theme
-  * hosts:deliverance-backend / ports:deliverance-backend  -> The proxied backend (eg: zope server):
-In development mode, we switched the host and url of the deliveranced host to be the development instance instead of either haproxy or the first instance.
-
-
-dev mode
-~~~~~~~~
-You can launch manually deliverance via::
-
-    ./bin/deliverance-paster serve etc/deliverance/deliverance.ini
-
-- Hit thz deliverance server vith a virtualhostmonster url, if not you won't have the links rewritten.::
-
-     http://localhost:8078/VirtualHostBase/http/localhost:8078/mars/VirtualHostRoot/<REQUEST>
-
-- You can copy/symlink the below apache deliverance vhost to your apache configuration to test in a full environment
-- To complete your apache installation, you must add ::
-
-    127.0.0.1 mars.localhost
-
-- To access the deliverane log, append 'deliv_log'to the GET parmaters::
-
-     http://localhost:8078/VirtualHostBase/http/localhost:8078/mars/VirtualHostRoot/<REQUEST>?deliv_log=1
-
-And then hit http://mars.localhost to view your proxified deliverance server
 
 REVERSE PROXY
 --------------
@@ -192,11 +139,9 @@ We generate two virtualhosts for a cliassical apache setup, mostly ready but fee
 ::
     etc/apache/
     |-- 100-mars.reverseproxy.conf                     -> a vhost for ruse with a standalone plone (even with haproxy in front of.)
-    |-- 100-mars.reverseproxy.deliverance.conf         -> a vhost for use with a plone behind a deliverance server.
     `-- apache.cfg
     etc/templates/apache/
     |-- 100-mars.reverseproxy.conf.in                   -> Template for a vhost for ruse with a standalone plone (even with haproxy in front of.)
-    `-- 100-mars.reverseproxy.deliverance.conf.in       -> Template for a vhost for use with a plone behind a deliverance server.
 
 In settings.cfg you have now some settings for declaring which host is your reverse proxy backend & the vhost mounting:
     * hosts:zope-front / ports:zope-front                              -> zope front backend
@@ -221,7 +166,6 @@ BACKENDS
     etc/backends/
     |-- etc/backends/fss.cfg                   -> Filestorage configuration if any
     |-- etc/backends/relstorage.cfg            -> relstorage configuration if any
-    |-- etc/backends/solr.cfg                  -> Solr configuration if any
     |-- etc/backends/zeo.cfg                   -> zeoserver configuration if any
     `-- etc/backends/zodb.cfg                  -> zodb configuration if any
 
@@ -256,7 +200,7 @@ And you'd  better have to learn how to bootstrap some minitage environment out t
 
 CONTINEOUS INTEGRATION
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-Here ae the files needed for our hudson and/or buildbot integration.
+Here are the files needed for our hudson integration.
 
 For hudson we provide some shell helpers more or less generated to run 'a build':
 
@@ -268,7 +212,6 @@ For hudson we provide some shell helpers more or less generated to run 'a build'
 This is described in details on the related configuration files you will find in the layout below.
 ::
 
-    |-- minitage.buildout-buildbot.cfg     -> buildout for deploying a buildbot related to your project (requires to be inside a minitage)
     |-- etc/hudson/
     |   `-- mars
     |       |-- build
@@ -282,35 +225,6 @@ This is described in details on the related configuration files you will find in
             |-- build
             |   `-- activate_env.sh.in   -> buildout template to generate etc/hudson/mars/build/activate.env.sh
             `-- config.xml.in            -> buildout template to generate etc/hudson/mars/config.xml (hudson job/build file)
-
-CYNIN integration if any
-------------------------
-
-     |-- etc/project/buildout-cynin.cfg -> cynin specific buildout
-
-
-NOTES ABOUT WSGI SUPPORT
--------------------------
-::
-
-    etc/wsgi/
-    |-- dev.ini      -> paster production configuration for running in wsgi mode
-    `-- prod.ini     -> paster development configuration for running in wsgi mode
-
-The egg is on your cache with a particular version, the classical ZODB3 egg wont be touched if you have one.
-WHAT IS VERY IMPORTANT is that [zopepy] part must run BEFORE [instance] to get the version with appropriate patches pinned.
-This WSGI support is nowodays deprecated (on the plone side), unmaintened and not supported, use it at our own risks.
-
-As we support WSGI, there is an important thing to know:
-  - ``zopelib`` is an egg from repoze where live the zope code, we totally do not NEED it.
-        * It's useless and make things buggy.
-        * We build zopelib as a fake egg, as we have already zope in our PYTHONPATH.
-  - If you raelly want zopelib as an egg, (un)comment things in the buildout(develop, patch). But we are sure, you surely dont have to !
-  - To run in WSGI with repoze.zope2, issue::
-
-      bin/paster serve etc/wsgi/dev.ini
-      or bin/paster serve etc/wsgi/prod.ini
-
 
 A word about minitage.paste instances
 --------------------------------------

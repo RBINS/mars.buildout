@@ -1,5 +1,5 @@
 <VirtualHost *:${reverse_proxy:port}>
-ServerAdmin     mpa@makina-corpus.com
+ServerAdmin     kiorky@localhost
 DocumentRoot    ${buildout:directory}
 ServerName      ${reverse_proxy:host}
 ServerAlias     bis.localhost.com.bis
@@ -26,7 +26,7 @@ RewriteEngine  on
 RewriteCond %{REQUEST_URI} ^(/zmiroot.*)$
 RewriteRule      ^/zmiroot(.*) http://${hosts:zope-front}:${ports:zope-front}/VirtualHostBase/${reverse_proxy:scheme}/%{HTTP_HOST}:${reverse_proxy:port}/VirtualHostRoot/_vh_zmiroot$1 [L,P]
 
-# /plone-mars-> vhmonster without deliverance filtering
+# /plone-mars-> vhmonster direct access
 RewriteCond %{REQUEST_URI} ^(/plone-mars.*)$
 RewriteRule      ^/plone-mars(.*) http://${hosts:zope-front}:${ports:zope-front}/VirtualHostBase/${reverse_proxy:scheme}/%{HTTP_HOST}:${reverse_proxy:port}/${plone:site}/VirtualHostRoot/_vh_plone-mars$1 [L,P]
 

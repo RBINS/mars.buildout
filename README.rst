@@ -6,34 +6,36 @@ INSTALLING THIS PROJECT WITHOUT MINITAGE
 -----------------------------------------
 ::
 
-    source /minitage/bin/activate
-    git clone ssh://git@github.com/RBINS/mars.buildout.git mars
-    cd mars
-    python bootstrap.py -dc buildout-(dev/prod).cfg
-    bin/buildout -vvvvvNc -dc buildout-(dev/prod).cfg
+    mkdir workdir
+    cwd=$PWD
+    prefix=$cwd/libs
+    mars=$cwd/mars
+    git clone ssh://git@github.com/RBINS/mars.buildout.git $mars
+    export LDFLAGS="-Wl,-rpath -Wl,$prefix/lib -L$prefix/lib"
+    export CFLAGS="-I$prefix/include"
+    mkdir tmp
+    cd tmp
+    sudo apt-get install -y build-essential m4 libtool pkg-config autoconf gettext bzip2 groff man-db automake libsigc++-2.0-dev tcl8.5 git libssl-dev libxml2-dev libxslt1-dev libbz2-dev zlib1g-dev python-setuptools python-dev libjpeg62-dev libreadline-dev python-imaging wv poppler-utils libsqlite0-dev libgdbm-dev libdb-dev tcl8.5-dev tcl8.5-dev tcl8.4 tcl8.4-dev tk8.5-dev libsqlite3-dev
 
-INSTALLING THIS PROJECT VITH MINITAGE
---------------------------------------
-ALWAYS USE THE MINITAGE ENVIRONMENT FILE INSIDE A MINITAGE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Install a python with datetime patched::
 
-Before doing anything in your project just after being installed, just source the environment file in your current shell::
+    apt-get install -y apt-build
+    ver="2.7.6"
+    wget http://python.org/ftp/python/$ver/Python-$ver.tgz
+    tar xzvf Python-$ver.tgz
+    cd Python-$ver
+    patch -Np1 < $mars/patches/py2.7-strftime-pre-1900.patch
+    ./configure --prefix=$prefix --enable-ipv6 --with-fpectl --enable-shared --enable-unicode=ucs4 && make && make install
+    cd ../..
+    rm -rf tmp
 
-    source $MT/zope/mars/sys/share/minitage/minitage.env # env file is generated with $MT/bin/paster create -t minitage.instances.env mars
+in ~/.buildout/default.cfg that egg cache & download cache point to the desired cache directories
 
-THE MINITAGE DANCE
-~~~~~~~~~~~~~~~~~~~~~~~~
-::
+Install project
 
-    export MT=/minitage
-    virtualenv --no-site-packages --distribute $MT
-    source /minitage/bin/activate
-    easy_install -U minitage.core minitage.paste
-    git clone ssh://git@github.com/RBINS/mars.minilay.git $MT/minilays/mars
-    minimerge -v mars
-    #minimerge -v mars-prod
-    source $MT/zope/mars/sys/share/minitage/minitage.env
-    cd $INS #enjoy !
+    cd $mars
+    $prefix/bin/python bootstrap.py -dc buildout-(dev/prod/devinprod).cfg
+    bin/buildout -vvvvvNc -c buildout-(dev/prod/devinprod).cfg
 
 
 CREATE A FIRST PLONESITE OBJECT
@@ -73,9 +75,6 @@ Love to know that Minitage support includes xml libs, ldap, dbs; python, depende
     |-- etc/base.cfg               -> The base buildout
     |-- buildout-prod.cfg          -> buildout for production
     |-- buildout-dev.cfg           -> buildout for development
-    |-- etc/minitage/minitage.cfg  -> some buildout tweaks to run in the best of the world with minitage
-    |-- minitage.buildout-prod.cfg -> buildout for production  with minitage support
-    |-- minitage.buildout-dev.cfg  -> buildout for development with minitage support
 
 
 PLONE OFFICIAL BUILDOUTS INTEGRATION
@@ -144,7 +143,6 @@ BACKENDS
 ::
 
     etc/backends/
-    |-- etc/backends/relstorage.cfg            -> relstorage configuration if any
     |-- etc/backends/zeo.cfg                   -> zeoserver configuration if any
     `-- etc/backends/zodb.cfg                  -> zodb configuration if any
 
@@ -156,102 +154,6 @@ This will allow you to freeze software versions known to work with your project 
 This file will be generated the first time that you run buildout.
 To un it, just run bin/buildout -vvvvvvc <CONFIG_FILE> install kgs
 Then sync the content of the kgs file with ``etc/project/versions.cfg``.
-
-NOTES ABOUT RELSTORAGE SUPPORT
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-We use the ZODB as an egg which is patched during installation, please see ``etc/project/patches.cfg``
-
-
-OS SPECIFIC SYSTEM INSTALLERS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Thos popular tools around zope/plone dev (not supported, just here for your conveniance, READ BEFORE USING THEM)
-And you'd  better have to learn how to bootstrap some minitage environment out there, funny and more secure & reproductible!
-::
-
-    |-- etc/os
-        |-- debian.sh       -> debian specific
-        |-- opensuse-dev.sh -> opensuse/dev specific
-        |-- opensuse.sh     -> suse specific
-        |-- osx.sh          -> osx specific
-        `-- ubuntu.sh       -> ubuntu specific
-
-
-CONTINEOUS INTEGRATION
-~~~~~~~~~~~~~~~~~~~~~~~~~
-Here are the files needed for our hudson integration.
-
-For hudson we provide some shell helpers more or less generated to run 'a build':
-
-    - an helper which set some variables in the current environement for others helpers
-    - an helper which update the project
-    - an helper which update the associated sources grabbed via mr.developer
-    - an helper which run all the tests
-
-This is described in details on the related configuration files you will find in the layout below.
-::
-
-    |-- etc/hudson/
-    |   `-- mars
-    |       |-- build
-    |           |-- build.sh               -> the project build helper
-    |           |-- test.sh                -> the project test executor helper (launch all tests needed)
-    |           |-- update_mrdeveloper.sh  -> update sources grabbed via mrdeveloper
-    |           `-- update_project.sh      -> update this layout
-    |
-    |-- etc/templates/hudson/
-        `-- mars
-            |-- build
-            |   `-- activate_env.sh.in   -> buildout template to generate etc/hudson/mars/build/activate.env.sh
-            `-- config.xml.in            -> buildout template to generate etc/hudson/mars/config.xml (hudson job/build file)
-
-A word about minitage.paste instances
---------------------------------------
-You are maybe wondering why this big buildout do not have out of the box those fancy monitoring, load-balancing or speedy databases support.
-#
-For the author, System programs that are not well integrated via buildout and most of all not written in python don't really have to be deployed via that buildout.
-And most of all, you ll surelly have head aches to make those init-scripts or rotation logs configurations right.
-Because the recipe which do them don't support it or other problems more or less spiritual.
-#
-Keep in mind that in Unix, one thing must do one purpose, and do it well. And many sysadmins don't want to run a buildout
-to generate a configuration file or build their loadbalancer, They want to edit in place, at most fetch the configuration file from somewhere and adapt,that's all.
-#
-Nevertheless, as usual, they are exceptions:
-     - supervisord which is well integrated. So supervisor is deployed along in the production buildout if any.
-     - We generate through buildout a haproxy configuration file or hudson related stuff
-#
-That's because we support that throught 'minitage.paste.instances'. Those are templates which create some instance of some program
-inside a subdirectory which is:
-   - sys/ inside a minitage project
-   - ADirectoryOfYourChoice/ if your are not using minitage
-#
-This significate that you can install a lot of things along with your project with:
-   - minitage/bin/easy_install -U minitage.paste(.extras) (or get it via buildout)
-   - paster create -t <TEMPLATE_NAME> projectname_OR_subdirectoryName inside_minitage=y/n
-     Where TEMPLATE_NAME can be (run paster create --list-templates|grep minitage.instances to get an up2date version):
-#
-     * minitage.instances.apache:          Template for creating an apache instance
-     * minitage.instances.env:             Template for creating a file to source to get the needed environnment variables for playing in the shell or for other templates
-     * minitage.instances.mysql:           Template for creating a postgresql instance
-     * minitage.instances.nginx:           Template for creating a nginx instance
-     * minitage.instances.paste-initd:     Template for creating init script for paster serve
-     * minitage.instances.postgresql:      Template for creating a postgresql instance
-     * minitage.instances.varnish:         Template for creating a varnish instance
-     * minitage.instances.varnish2:        Template for creating a varnish2 instance
-#
-     The minitage.paste package as the following extras:
-#
-     * minitage.instances.openldap:      Template for creating an openldap instance
-     * minitage.instances.tomcat:        Template for creating a tomcat instance
-     * minitage.instances.cas:           Template for creating a Jisag CAS instance
-     * minitage.instances.hudson:        Template for creating an hudson instance
-#
-Note that if you are using minitage, you ll have better to add dependencies inside your minibuild and run minimerge to build them prior to run the paster command
-#
-For example, to add a postgresql instance to your project, you will have to issue those steps:
-    * $EDITOR minitage/minilays/mars_minilay/mars -> add postgresql-8.4 to the dependencies list
-    * minimerge -v  mars install what was not, and surely at least postgresql-8.4
-    * minitage/bin/paster create -t minitage.instance.postgresql mars
-    * Then to start the postgres : zope/mars/sys/etc/init.d/mars_postgresql restart
 
 
 .. vim:set ft=rst:

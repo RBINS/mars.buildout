@@ -1,0 +1,162 @@
+diff -uNr Python-2.7.3.minitage//Lib/test/test_datetime.py Python-2.7.3.dt//Lib/test/test_datetime.py
+--- Python-2.7.3.minitage//Lib/test/test_datetime.py	2012-04-10 01:07:31.000000000 +0200
++++ Python-2.7.3.dt//Lib/test/test_datetime.py	2012-09-19 15:49:11.000000000 +0200
+@@ -864,6 +864,7 @@
+         self.assertEqual(t.strftime("m:%m d:%d y:%y"), "m:03 d:02 y:05")
+         self.assertEqual(t.strftime(""), "") # SF bug #761337
+         self.assertEqual(t.strftime('x'*1000), 'x'*1000) # SF bug #1556784
++        self.assertEqual(t.strftime("Y:%Y"), "Y:2005")
+ 
+         self.assertRaises(TypeError, t.strftime) # needs an arg
+         self.assertRaises(TypeError, t.strftime, "one", "two") # too many args
+@@ -892,6 +893,33 @@
+         #check that this standard extension works
+         t.strftime("%f")
+ 
++    def test_strftime_early(self):
++        t = self.theclass(1805, 3, 2)
++        self.assertEqual(t.strftime("m:%m d:%d y:%y"), "m:03 d:02 y:05")
++        self.assertEqual(t.strftime("Y:%Y"), "Y:1805")
++        self.assertEqual(t.strftime(""), "") # SF bug #761337
++        self.assertEqual(t.strftime('x'*1000), 'x'*1000) # SF bug #1556784
++
++        self.assertRaises(TypeError, t.strftime) # needs an arg
++        self.assertRaises(TypeError, t.strftime, "one", "two") # too many args
++        self.assertRaises(TypeError, t.strftime, 42) # arg wrong type
++
++        # A naive object replaces %z and %Z w/ empty strings.
++        self.assertEqual(t.strftime("'%z' '%Z'"), "'' ''")
++
++    def test_strftime_very_early(self):
++        t = self.theclass(85, 3, 2)
++        self.assertEqual(t.strftime("m:%m d:%d y:%y"), "m:03 d:02 y:85")
++        self.assertEqual(t.strftime("Y:%Y"), "Y:85")
++        self.assertEqual(t.strftime(""), "") # SF bug #761337
++        self.assertEqual(t.strftime('x'*1000), 'x'*1000) # SF bug #1556784
++
++        self.assertRaises(TypeError, t.strftime) # needs an arg
++        self.assertRaises(TypeError, t.strftime, "one", "two") # too many args
++        self.assertRaises(TypeError, t.strftime, 42) # arg wrong type
++
++        # A naive object replaces %z and %Z w/ empty strings.
++
+ 
+     def test_format(self):
+         dt = self.theclass(2007, 9, 10)
+@@ -1056,11 +1084,11 @@
+         self.assertTrue(self.theclass.max)
+ 
+     def test_strftime_out_of_range(self):
+-        # For nasty technical reasons, we can't handle years before 1900.
++        # For nasty technical reasons, we couldn't handle years before 1900. Now we can.
+         cls = self.theclass
+         self.assertEqual(cls(1900, 1, 1).strftime("%Y"), "1900")
+         for y in 1, 49, 51, 99, 100, 1000, 1899:
+-            self.assertRaises(ValueError, cls(y, 1, 1).strftime, "%Y")
++            self.assertEqual(cls(y, 1, 1).strftime("%Y"), str(y))
+ 
+     def test_replace(self):
+         cls = self.theclass
+diff -uNr Python-2.7.3.minitage//Modules/datetimemodule.c Python-2.7.3.dt//Modules/datetimemodule.c
+--- Python-2.7.3.minitage//Modules/datetimemodule.c	2012-04-10 01:07:34.000000000 +0200
++++ Python-2.7.3.dt//Modules/datetimemodule.c	2012-09-19 15:53:28.000000000 +0200
+@@ -1151,6 +1151,33 @@
+     return PyString_FromStringAndSize(freplacement, strlen(freplacement));
+ }
+ 
++
++/* copied straight out of timemodule.c */
++static int
++gettmarg(PyObject *args, struct tm *p)
++{
++	int y;
++	memset((void *) p, '\0', sizeof(struct tm));
++
++	if (!PyArg_Parse(args, "(iiiiiiiii)",
++			 &y,
++			 &p->tm_mon,
++			 &p->tm_mday,
++			 &p->tm_hour,
++			 &p->tm_min,
++			 &p->tm_sec,
++			 &p->tm_wday,
++			 &p->tm_yday,
++			 &p->tm_isdst))
++		return 0;
++	p->tm_year = y - 1900;
++	p->tm_mon--;
++	p->tm_wday = (p->tm_wday + 1) % 7;
++	p->tm_yday--;
++	return 1;
++}
++
++
+ /* I sure don't want to reproduce the strftime code from the time module,
+  * so this imports the module and calls it.  All the hair is due to
+  * giving special meanings to the %z, %Z and %f format codes via a
+@@ -1182,31 +1209,6 @@
+ 
+     assert(object && format && timetuple);
+ 
+-    /* Give up if the year is before 1900.
+-     * Python strftime() plays games with the year, and different
+-     * games depending on whether envar PYTHON2K is set.  This makes
+-     * years before 1900 a nightmare, even if the platform strftime
+-     * supports them (and not all do).
+-     * We could get a lot farther here by avoiding Python's strftime
+-     * wrapper and calling the C strftime() directly, but that isn't
+-     * an option in the Python implementation of this module.
+-     */
+-    {
+-        long year;
+-        PyObject *pyyear = PySequence_GetItem(timetuple, 0);
+-        if (pyyear == NULL) return NULL;
+-        assert(PyInt_Check(pyyear));
+-        year = PyInt_AsLong(pyyear);
+-        Py_DECREF(pyyear);
+-        if (year < 1900) {
+-            PyErr_Format(PyExc_ValueError, "year=%ld is before "
+-                         "1900; the datetime strftime() "
+-                         "methods require year >= 1900",
+-                         year);
+-            return NULL;
+-        }
+-    }
+-
+     /* Scan the input format, looking for %z/%Z/%f escapes, building
+      * a new format.  Since computing the replacements for those codes
+      * is expensive, don't unless they're actually used.
+@@ -1343,12 +1345,27 @@
+     if (_PyString_Resize(&newfmt, usednew) < 0)
+         goto Done;
+     {
+-        PyObject *time = PyImport_ImportModuleNoBlock("time");
+-        if (time == NULL)
+-            goto Done;
+-        result = PyObject_CallMethod(time, "strftime", "OO",
+-                                     newfmt, timetuple);
+-        Py_DECREF(time);
++        struct tm buf;
++		char *outbuf = 0;
++		char *c_newfmt = PyString_AsString(newfmt);
++		size_t i;
++		int buflen;
++		int fmtlen;
++		memset((void *)(&buf), '\0', sizeof(struct tm));
++		gettmarg(timetuple, &buf);
++		fmtlen = strlen(c_newfmt);
++		for (i = 1024; ; i += i) {
++			outbuf = (char *)malloc(i);
++			if (outbuf == NULL) {
++				return PyErr_NoMemory();
++			}
++			buflen = strftime(outbuf, 1024, c_newfmt, &buf);
++			if (buflen > 0 || i >= 256 * fmtlen) {
++				result = PyString_FromStringAndSize(outbuf, buflen);
++				free(outbuf);
++				break;
++			}
++		}
+     }
+  Done:
+     Py_XDECREF(freplacement);

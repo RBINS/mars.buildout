@@ -1,4 +1,5 @@
 bin
+etc/project/mars-kgs.cfg
 develop-eggs/
 etc/apache/100-mars.reverseproxy.conf
 etc/forespir.env

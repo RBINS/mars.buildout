@@ -17,7 +17,7 @@ svn_collective = https://svn.plone.org/svn/collective
 #svn_collective = http://svn.plone.org/svn/collective
 
 # Zope
-zope = http://svn.zope.org/repos/main
+zope = svn://svn.zope.org/repos/main
 #zope = svn+ssh://svn.zope.org/repos/main
 zopegit = git://github.com/zopefoundation
 zopegit_push = git@github.com:zopefoundation
@@ -27,8 +27,8 @@ zopegit_push = git@github.com:zopefoundation
 Zope2                               = git ${remotes:zopegit}/Zope.git pushurl=${remotes:zopegit_push}/Zope.git branch=2.13
 ZODB3                               = svn ${remotes:zope}/ZODB/branches/3.10
 Plone                               = git ${remotes:plone}/Plone.git pushurl=${remotes:plone_push}/Plone.git branch=4.3.x
-archetypes.querywidget              = git ${remotes:plone}/archetypes.querywidget.git pushurl=${remotes:plone_push}/archetypes.querywidget.git
-archetypes.referencebrowserwidget   = git ${remotes:plone}/archetypes.referencebrowserwidget.git pushurl=${remotes:plone_push}/archetypes.referencebrowserwidget.git
+archetypes.querywidget              = git ${remotes:plone}/archetypes.querywidget.git pushurl=${remotes:plone_push}/archetypes.querywidget.git branch=master
+archetypes.referencebrowserwidget   = git ${remotes:plone}/archetypes.referencebrowserwidget.git pushurl=${remotes:plone_push}/archetypes.referencebrowserwidget.git branch=master
 archetypes.schemaextender           = git ${remotes:plone}/archetypes.schemaextender.git pushurl=${remotes:plone_push}/archetypes.schemaextender.git
 borg.localrole                      = git ${remotes:plone}/borg.localrole.git pushurl=${remotes:plone_push}/borg.localrole.git branch=3.0.x
 collective.monkeypatcher            = git ${remotes:plone}/collective.monkeypatcher.git pushurl=${remotes:plone_push}/collective.monkeypatcher.git
@@ -44,7 +44,7 @@ plone.autoform                      = git ${remotes:plone}/plone.autoform.git pu
 plone.batching                      = git ${remotes:plone}/plone.batching.git pushurl=${remotes:plone_push}/plone.batching.git
 plone.behavior                      = git ${remotes:plone}/plone.behavior.git pushurl=${remotes:plone_push}/plone.behavior.git
 plone.browserlayer                  = git ${remotes:plone}/plone.browserlayer.git pushurl=${remotes:plone_push}/plone.browserlayer.git
-plone.caching                       = git ${remotes:plone}/plone.caching.git pushurl=${remotes:plone_push}/plone.caching.git branch=1.1.x
+plone.caching                       = git ${remotes:plone}/plone.caching.git pushurl=${remotes:plone_push}/plone.caching.git branch=master
 plone.cachepurging                  = git ${remotes:plone}/plone.cachepurging.git pushurl=${remotes:plone_push}/plone.cachepurging.git
 plone.contentrules                  = git ${remotes:plone}/plone.contentrules.git pushurl=${remotes:plone_push}/plone.contentrules.git
 plone.dexterity                     = git ${remotes:plone}/plone.dexterity.git pushurl=${remotes:plone_push}/plone.dexterity.git
@@ -56,18 +56,18 @@ plone.intelligenttext               = git ${remotes:plone}/plone.intelligenttext
 plone.keyring                       = git ${remotes:plone}/plone.keyring.git pushurl=${remotes:plone_push}/plone.keyring.git
 plone.locking                       = git ${remotes:plone}/plone.locking.git pushurl=${remotes:plone_push}/plone.locking.git
 plone.memoize                       = git ${remotes:plone}/plone.memoize.git pushurl=${remotes:plone_push}/plone.memoize.git
-plone.namedfile                     = git ${remotes:plone}/plone.namedfile.git pushurl=${remotes:plone_push}/plone.namedfile.git
+plone.namedfile                     = git ${remotes:plone}/plone.namedfile.git pushurl=${remotes:plone_push}/plone.namedfile.git branch=2.0.x
 plone.openid                        = git ${remotes:plone}/plone.openid.git pushurl=${remotes:plone_push}/plone.openid.git
 plone.outputfilters                 = git ${remotes:plone}/plone.outputfilters.git pushurl=${remotes:plone_push}/plone.outputfilters.git
 plone.portlets                      = git ${remotes:plone}/plone.portlets.git pushurl=${remotes:plone_push}/plone.portlets.git
-plone.protect                       = git ${remotes:plone}/plone.protect.git pushurl=${remotes:plone_push}/plone.protect.git
+plone.protect                       = git ${remotes:plone}/plone.protect.git pushurl=${remotes:plone_push}/plone.protect.git branch=2.x
 plone.registry                      = git ${remotes:plone}/plone.registry.git pushurl=${remotes:plone_push}/plone.registry.git
 plone.reload                        = git https://github.com/hannosch/plone.reload
 plone.resource                      = git ${remotes:plone}/plone.resource.git pushurl=${remotes:plone_push}/plone.resource.git
-plone.resourceeditor                = git ${remotes:plone}/plone.resourceeditor.git pushurl=${remotes:plone_push}/plone.resourceeditor.git
+plone.resourceeditor                = git ${remotes:plone}/plone.resourceeditor.git pushurl=${remotes:plone_push}/plone.resourceeditor.git branch=1.x
 plone.rfc822                        = git ${remotes:plone}/plone.rfc822.git pushurl=${remotes:plone_push}/plone.rfc822.git
 plone.scale                         = git ${remotes:plone}/plone.scale.git pushurl=${remotes:plone_push}/plone.scale.git
-plone.schemaeditor                  = git ${remotes:plone}/plone.schemaeditor.git pushurl=${remotes:plone_push}/plone.schemaeditor.git
+plone.schemaeditor                  = git ${remotes:plone}/plone.schemaeditor.git pushurl=${remotes:plone_push}/plone.schemaeditor.git branch=1.3.x
 plone.session                       = git ${remotes:plone}/plone.session.git pushurl=${remotes:plone_push}/plone.session.git
 plone.stringinterp                  = git ${remotes:plone}/plone.stringinterp.git pushurl=${remotes:plone_push}/plone.stringinterp.git branch=1.0.x
 plone.subrequest                    = git ${remotes:plone}/plone.subrequest.git pushurl=${remotes:plone_push}/plone.subrequest.git
@@ -80,31 +80,31 @@ plone.uuid                          = git ${remotes:plone}/plone.uuid.git pushur
 plone.z3cform                       = git ${remotes:zopegit}/plone.z3cform.git pushurl=${remotes:zopegit_push}/plone.z3cform.git
 plone.app.blob                      = git ${remotes:plone}/plone.app.blob.git pushurl=${remotes:plone_push}/plone.app.blob.git
 plone.app.caching                   = git ${remotes:plone}/plone.app.caching.git pushurl=${remotes:plone_push}/plone.app.caching.git branch=1.1.x
-plone.app.collection                = git ${remotes:plone}/plone.app.collection.git pushurl=${remotes:plone_push}/plone.app.collection.git
+plone.app.collection                = git ${remotes:plone}/plone.app.collection.git pushurl=${remotes:plone_push}/plone.app.collection.git branch=1.0.x
 plone.app.content                   = git ${remotes:plone}/plone.app.content.git pushurl=${remotes:plone_push}/plone.app.content.git branch=2.1.x
-plone.app.contentlisting            = git ${remotes:plone}/plone.app.contentlisting.git pushurl=${remotes:plone_push}/plone.app.contentlisting.git
-plone.app.contentmenu               = git ${remotes:plone}/plone.app.contentmenu.git pushurl=${remotes:plone_push}/plone.app.contentmenu.git
-plone.app.contentrules              = git ${remotes:plone}/plone.app.contentrules.git pushurl=${remotes:plone_push}/plone.app.contentrules.git
-plone.app.contenttypes              = git ${remotes:plone}/plone.app.contenttypes.git pushurl=${remotes:plone_push}/plone.app.contenttypes.git
+plone.app.contentlisting            = git ${remotes:plone}/plone.app.contentlisting.git pushurl=${remotes:plone_push}/plone.app.contentlisting.git branch=1.0.x
+plone.app.contentmenu               = git ${remotes:plone}/plone.app.contentmenu.git pushurl=${remotes:plone_push}/plone.app.contentmenu.git branch=2.0.x
+plone.app.contentrules              = git ${remotes:plone}/plone.app.contentrules.git pushurl=${remotes:plone_push}/plone.app.contentrules.git branch=3.0.x
 plone.app.controlpanel              = git ${remotes:plone}/plone.app.controlpanel.git pushurl=${remotes:plone_push}/plone.app.controlpanel.git branch=2.3.x
-plone.app.customerize               = git ${remotes:plone}/plone.app.customerize.git pushurl=${remotes:plone_push}/plone.app.customerize.git
-plone.app.dexterity                 = git ${remotes:plone}/plone.app.dexterity.git pushurl=${remotes:plone_push}/plone.app.dexterity.git
+plone.app.customerize               = git ${remotes:plone}/plone.app.customerize.git pushurl=${remotes:plone_push}/plone.app.customerize.git branch=1.2.x
+plone.app.dexterity                 = git ${remotes:plone}/plone.app.dexterity.git pushurl=${remotes:plone_push}/plone.app.dexterity.git branch=2.0.x
 plone.app.discussion                = git ${remotes:plone}/plone.app.discussion.git pushurl=${remotes:plone_push}/plone.app.discussion.git branch=2.2.x
 plone.app.folder                    = git ${remotes:plone}/plone.app.folder.git pushurl=${remotes:plone_push}/plone.app.folder.git
 plone.app.form                      = git ${remotes:plone}/plone.app.form.git pushurl=${remotes:plone_push}/plone.app.form.git branch=2.2.x
 plone.app.i18n                      = git ${remotes:plone}/plone.app.i18n.git pushurl=${remotes:plone_push}/plone.app.i18n.git
 plone.app.imaging                   = git ${remotes:plone}/plone.app.imaging.git pushurl=${remotes:plone_push}/plone.app.imaging.git branch=1.0.x
-plone.app.iterate                   = git ${remotes:plone}/plone.app.iterate.git pushurl=${remotes:plone_push}/plone.app.iterate.git
+plone.app.iterate                   = git ${remotes:plone}/plone.app.iterate.git pushurl=${remotes:plone_push}/plone.app.iterate.git branch=2.1.x
 plone.app.jquery                    = git ${remotes:plone}/plone.app.jquery.git pushurl=${remotes:plone_push}/plone.app.jquery.git branch=1.7
-plone.app.jquerytools               = git ${remotes:plone}/plone.app.jquerytools.git pushurl=${remotes:plone_push}/plone.app.jquerytools.git
+plone.app.jquerytools               = git ${remotes:plone}/plone.app.jquerytools.git pushurl=${remotes:plone_push}/plone.app.jquerytools.git branch=master
 plone.app.layout                    = git ${remotes:plone}/plone.app.layout.git pushurl=${remotes:plone_push}/plone.app.layout.git branch=2.3.x
-plone.app.linkintegrity             = git ${remotes:plone}/plone.app.linkintegrity.git pushurl=${remotes:plone_push}/plone.app.linkintegrity.git
+plone.app.linkintegrity             = git ${remotes:plone}/plone.app.linkintegrity.git pushurl=${remotes:plone_push}/plone.app.linkintegrity.git branch=1.5.x
 plone.app.locales                   = git ${remotes:collective}/plone.app.locales.git pushurl=${remotes:collective_push}/plone.app.locales.git
 plone.app.openid                    = git ${remotes:plone}/plone.app.openid.git pushurl=${remotes:plone_push}/plone.app.openid.git
-plone.app.portlets                  = git ${remotes:plone}/plone.app.portlets.git pushurl=${remotes:plone_push}/plone.app.portlets.git branch=2.4.x
-plone.app.querystring               = git ${remotes:plone}/plone.app.querystring.git pushurl=${remotes:plone_push}/plone.app.querystring.git
+plone.app.portlets                  = git ${remotes:plone}/plone.app.portlets.git pushurl=${remotes:plone_push}/plone.app.portlets.git branch=2.5.x
+plone.app.querystring               = git ${remotes:plone}/plone.app.querystring.git pushurl=${remotes:plone_push}/plone.app.querystring.git branch=master
 plone.app.redirector                = git ${remotes:plone}/plone.app.redirector.git pushurl=${remotes:plone_push}/plone.app.redirector.git branch=1.2.x
 plone.app.registry                  = git ${remotes:plone}/plone.app.registry.git pushurl=${remotes:plone_push}/plone.app.registry.git
+plone.app.robotframework            = git ${remotes:plone}/plone.app.robotframework.git pushurl=${remotes:plone_push}/plone.app.robotframework.git branch=master
 plone.app.search                    = git ${remotes:plone}/plone.app.search.git pushurl=${remotes:plone_push}/plone.app.search.git branch=1.1.x
 plone.app.testing                   = git ${remotes:plone}/plone.app.testing.git pushurl=${remotes:plone_push}/plone.app.testing.git branch=4.2.x
 plone.app.textfield                 = git ${remotes:plone}/plone.app.textfield.git pushurl=${remotes:plone_push}/plone.app.textfield.git
@@ -115,17 +115,17 @@ plone.app.uuid                      = git ${remotes:plone}/plone.app.uuid.git pu
 plone.app.viewletmanager            = git ${remotes:plone}/plone.app.viewletmanager.git pushurl=${remotes:plone_push}/plone.app.viewletmanager.git
 plone.app.vocabularies              = git ${remotes:plone}/plone.app.vocabularies.git pushurl=${remotes:plone_push}/plone.app.vocabularies.git
 plone.app.workflow                  = git ${remotes:plone}/plone.app.workflow.git pushurl=${remotes:plone_push}/plone.app.workflow.git branch=2.1.x
-plone.app.z3cform                   = git ${remotes:plone}/plone.app.z3cform.git pushurl=${remotes:plone_push}/plone.app.z3cform.git
+plone.app.z3cform                   = git ${remotes:plone}/plone.app.z3cform.git pushurl=${remotes:plone_push}/plone.app.z3cform.git branch=0.x
 plone.directives.form               = git ${remotes:plone}/plone.directives.form.git pushurl=${remotes:plone_push}/plone.directives.form.git
 plone.formwidget.autocomplete       = git ${remotes:plone}/plone.formwidget.autocomplete.git pushurl=${remotes:plone_push}/plone.formwidget.autocomplete.git
 plone.formwidget.contenttree        = git ${remotes:plone}/plone.formwidget.contenttree.git pushurl=${remotes:plone_push}/plone.formwidget.contenttree.git
 plone.formwidget.namedfile          = git ${remotes:plone}/plone.formwidget.namedfile.git pushurl=${remotes:plone_push}/plone.formwidget.namedfile.git
 plone.portlet.collection            = git ${remotes:plone}/plone.portlet.collection.git pushurl=${remotes:plone_push}/plone.portlet.collection.git branch=2.1.x
-plone.portlet.static                = git ${remotes:plone}/plone.portlet.static.git pushurl=${remotes:plone_push}/plone.portlet.static.git
+plone.portlet.static                = git ${remotes:plone}/plone.portlet.static.git pushurl=${remotes:plone_push}/plone.portlet.static.git branch=2.x
 plone.recipe.alltests               = git ${remotes:plone}/plone.recipe.alltests.git pushurl=${remotes:plone_push}/plone.recipe.alltests.git
 plone.recipe.zope2instance          = git ${remotes:plone}/plone.recipe.zope2instance.git pushurl=${remotes:plone_push}/plone.recipe.zope2instance.git
 plone.recipe.zeoserver              = git ${remotes:plone}/plone.recipe.zeoserver.git pushurl=${remotes:plone_push}/plone.recipe.zeoserver.git
-plonetheme.sunburst                 = git ${remotes:plone}/plonetheme.sunburst.git pushurl=${remotes:plone_push}/plonetheme.sunburst.git
+plonetheme.sunburst                 = git ${remotes:plone}/plonetheme.sunburst.git pushurl=${remotes:plone_push}/plonetheme.sunburst.git branch=1.4.x
 plonetheme.classic                  = git ${remotes:plone}/plonetheme.classic.git pushurl=${remotes:plone_push}/plonetheme.classic.git
 repoze.xmliter                      = git https://github.com/repoze/repoze.xmliter.git
 txtfilter                           = git ${remotes:plone}/txtfilter.git pushurl=${remotes:plone_push}/txtfilter.git
@@ -134,6 +134,7 @@ z3c.autoinclude                     = git ${remotes:zopegit}/z3c.autoinclude.git
 z3c.batching                        = git ${remotes:zopegit}/z3c.batching.git pushurl=${remotes:zopegit_push}/z3c.batching.git
 z3c.form                            = git ${remotes:zopegit}/z3c.form.git pushurl=${remotes:zopegit_push}/z3c.form.git
 z3c.formwidget.query                = svn ${remotes:zope}/z3c.formwidget.query/trunk
+zope.formlib                        = git ${remotes:zopegit}/zope.formlib.git pushurl=${remotes:zopegit_push}/zope.formlib.git
 zope.globalrequest                  = git ${remotes:zopegit}/zope.globalrequest.git pushurl=${remotes:zopegit_push}/zope.globalrequest.git
 
 # Products
@@ -144,11 +145,11 @@ Products.CMFActionIcons             = svn ${remotes:zope}/Products.CMFActionIcon
 Products.CMFCalendar                = svn ${remotes:zope}/Products.CMFCalendar/branches/2.2
 Products.CMFCore                    = svn ${remotes:zope}/Products.CMFCore/branches/2.2
 Products.CMFDefault                 = svn ${remotes:zope}/Products.CMFDefault/branches/2.2
-Products.CMFDiffTool                = git ${remotes:plone}/Products.CMFDiffTool.git pushurl=${remotes:plone_push}/Products.CMFDiffTool.git
+Products.CMFDiffTool                = git ${remotes:plone}/Products.CMFDiffTool.git pushurl=${remotes:plone_push}/Products.CMFDiffTool.git branch=2.1.x
 Products.CMFDynamicViewFTI          = git ${remotes:plone}/Products.CMFDynamicViewFTI.git pushurl=${remotes:plone_push}/Products.CMFDynamicViewFTI.git
 Products.CMFEditions                = git ${remotes:plone}/Products.CMFEditions.git pushurl=${remotes:plone_push}/Products.CMFEditions.git
 Products.CMFFormController          = git ${remotes:plone}/Products.CMFFormController.git pushurl=${remotes:plone_push}/Products.CMFFormController.git
-Products.CMFPlacefulWorkflow        = git ${remotes:plone}/Products.CMFPlacefulWorkflow.git pushurl=${remotes:plone_push}/Products.CMFPlacefulWorkflow.git
+Products.CMFPlacefulWorkflow        = git ${remotes:plone}/Products.CMFPlacefulWorkflow.git pushurl=${remotes:plone_push}/Products.CMFPlacefulWorkflow.git branch=1.5.x
 Products.CMFPlone                   = git ${remotes:plone}/Products.CMFPlone.git pushurl=${remotes:plone_push}/Products.CMFPlone.git branch=4.3.x
 Products.CMFQuickInstallerTool      = git ${remotes:plone}/Products.CMFQuickInstallerTool.git pushurl=${remotes:plone_push}/Products.CMFQuickInstallerTool.git
 Products.CMFTestCase                = git ${remotes:plone}/Products.CMFTestCase.git pushurl=${remotes:plone_push}/Products.CMFTestCase.git
@@ -164,18 +165,28 @@ Products.i18ntestcase               = git ${remotes:plone}/Products.i18ntestcase
 Products.LinguaPlone                = git ${remotes:plone}/Products.LinguaPlone.git pushurl=${remotes:plone_push}/Products.LinguaPlone.git
 Products.Marshall                   = git ${remotes:plone}/Products.Marshall.git pushurl=${remotes:plone_push}/Products.Marshall.git
 Products.MimetypesRegistry          = git ${remotes:plone}/Products.MimetypesRegistry.git pushurl=${remotes:plone_push}/Products.MimetypesRegistry.git
-Products.PasswordResetTool          = git ${remotes:plone}/Products.PasswordResetTool.git pushurl=${remotes:plone_push}/Products.PasswordResetTool.git
+Products.PasswordResetTool          = git ${remotes:plone}/Products.PasswordResetTool.git pushurl=${remotes:plone_push}/Products.PasswordResetTool.git branch=2.0.x
 Products.PlacelessTranslationService= git ${remotes:plone}/Products.PlacelessTranslationService.git pushurl=${remotes:plone_push}/Products.PlacelessTranslationService.git
 Products.PloneLanguageTool          = git ${remotes:plone}/Products.PloneLanguageTool.git pushurl=${remotes:plone_push}/Products.PloneLanguageTool.git
-Products.PlonePAS                   = git ${remotes:plone}/Products.PlonePAS.git pushurl=${remotes:plone_push}/Products.PlonePAS.git
+Products.PlonePAS                   = git ${remotes:plone}/Products.PlonePAS.git pushurl=${remotes:plone_push}/Products.PlonePAS.git branch=4.1.x
 Products.PloneTestCase              = git ${remotes:plone}/Products.PloneTestCase.git pushurl=${remotes:plone_push}/Products.PloneTestCase.git
 Products.PluggableAuthService       = svn ${remotes:zope}/Products.PluggableAuthService/trunk
 Products.PluginRegistry             = svn ${remotes:zope}/Products.PluginRegistry/trunk
 Products.PortalTransforms           = git ${remotes:plone}/Products.PortalTransforms.git pushurl=${remotes:plone_push}/Products.PortalTransforms.git
-Products.ResourceRegistries         = git ${remotes:plone}/Products.ResourceRegistries.git pushurl=${remotes:plone_push}/Products.ResourceRegistries.git
+Products.ResourceRegistries         = git ${remotes:plone}/Products.ResourceRegistries.git pushurl=${remotes:plone_push}/Products.ResourceRegistries.git branch=2.2.x
 Products.SecureMailHost             = svn ${remotes:svn_collective}/SecureMailHost/branches/1.1
 Products.statusmessages             = git ${remotes:plone}/Products.statusmessages.git pushurl=${remotes:plone_push}/Products.statusmessages.git
 Products.TinyMCE                    = git ${remotes:plone}/Products.TinyMCE.git pushurl=${remotes:plone_push}/Products.TinyMCE.git branch=1.3.x
 Products.validation                 = git ${remotes:plone}/Products.validation.git pushurl=${remotes:plone_push}/Products.validation.git
 Products.ZCatalog                   = git ${remotes:zopegit}/Products.ZCatalog.git pushurl=${remotes:zopegit_push}/Products.ZCatalog.git branch=2.13
 Products.ZopeVersionControl         = git ${remotes:zopegit}/Products.ZopeVersionControl.git pushurl=${remotes:zopegit_push}/Products.ZopeVersionControl.git
+
+# ecosystem (those packages are not shipped with Plone 4.3)
+plone.app.intid = git ${remotes:plone}/plone.app.intid.git pushurl=${remotes:plone_push}/plone.app.intid.git
+plone.app.ldap = git ${remotes:plone}/plone.app.ldap.git pushurl=${remotes:plone_push}/plone.app.ldap.git
+plone.app.relationfield = git ${remotes:plone}/plone.app.relationfield.git pushurl=${remotes:plone_push}/plone.app.relationfield.git branch=1.x
+plone.app.referenceablebehavior = git ${remotes:plone}/plone.app.referenceablebehavior pushurl=${remotes:plone_push}/plone.app.referenceablebehavior.git
+plone.app.stagingbehavior = git ${remotes:plone}/plone.app.stagingbehavior.git pushurl=${remotes:plone_push}/plone.app.stagingbehavior.git
+plone.app.versioningbehavior = git ${remotes:plone}/plone.app.versioningbehavior.git pushurl=${remotes:plone_push}/plone.app.versioningbehavior.git
+plone.app.contenttypes = git ${remotes:plone}/plone.app.contenttypes.git pushurl=${remotes:plone_push}/plone.app.contenttypes.git branch=1.1.x
+plone.app.event = git ${remotes:plone}/plone.app.event.git pushurl=${remotes:plone_push}/plone.app.event.git branch=1.1.x

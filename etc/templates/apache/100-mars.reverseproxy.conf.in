@@ -20,6 +20,11 @@ ProxyRequests off
   Allow from all
 </Proxy>
 RewriteEngine  on
+RewriteRule ^.*/((manage$)|(manage_([^/])*$)) - [L,NC]
+<LocationMatch "^.*/((manage$)|(manage_([^/])*$))">
+Order deny,allow
+Deny from all
+</LocationMatch>
 
 # application mounted on / does not needs _vh_
 # /zmiroot -> access to zmi

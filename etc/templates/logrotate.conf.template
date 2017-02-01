@@ -6,7 +6,16 @@ delaycompress
 
 
 
-${buildout:directory}/var/log/instance1*.log {
+${buildout:directory}/var/log/instance1.log {
+    compress
+    rotate 10
+    daily
+    notifempty
+    size 10M
+    sharedscripts
+}
+
+${buildout:directory}/var/log/instance1-Z2.log {
     compress
     rotate 10
     daily
@@ -30,16 +39,27 @@ ${buildout:directory}/var/log/zeoserver.log {
     endscript
 }
 
-
-${buildout:directory}/var/log/transform*.log {
+${buildout:directory}/var/log/instance1-entomo*.log {
     compress
     rotate 10
     daily
     notifempty
-    size 10M 
+    size 10M
     sharedscripts
     postrotate
-        /bin/kill -USR1 $(cat ${buildout:directory}/var/transform.pid)
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-entomo.pid)
+    endscript
+}
+
+
+${buildout:directory}/var/log/zeoserver-entomo.log {
+    compress
+    rotate 10
+    daily
+    notifempty
+    size 10M
+    postrotate
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/zeoserver-entomo.pid)
     endscript
 }
 

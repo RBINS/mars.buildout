@@ -5,29 +5,6 @@ compress
 delaycompress
 
 
-
-${buildout:directory}/var/log/instance1.log {
-    compress
-    rotate 10
-    daily
-    notifempty
-    size 10M
-    sharedscripts
-}
-
-${buildout:directory}/var/log/instance1-Z2.log {
-    compress
-    rotate 10
-    daily
-    notifempty
-    size 10M
-    sharedscripts
-    postrotate
-        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1.pid)
-    endscript
-}
-
-
 ${buildout:directory}/var/log/zeoserver.log {
     compress
     rotate 10
@@ -39,19 +16,6 @@ ${buildout:directory}/var/log/zeoserver.log {
     endscript
 }
 
-${buildout:directory}/var/log/instance1-entomo*.log {
-    compress
-    rotate 10
-    daily
-    notifempty
-    size 10M
-    sharedscripts
-    postrotate
-        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-entomo.pid)
-    endscript
-}
-
-
 ${buildout:directory}/var/log/zeoserver-entomo.log {
     compress
     rotate 10
@@ -62,6 +26,73 @@ ${buildout:directory}/var/log/zeoserver-entomo.log {
         /bin/kill -USR2 $(cat ${buildout:directory}/var/zeoserver-entomo.pid)
     endscript
 }
+
+${buildout:directory}/var/log/zeoserver-invertebrates.log {
+    compress
+    rotate 10
+    daily
+    notifempty
+    size 10M
+    postrotate
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/zeoserver-invertebrates.pid)
+    endscript
+}
+
+${buildout:directory}/var/log/zeoserver-vertebrates.log {
+    compress
+    rotate 10
+    daily
+    notifempty
+    size 10M
+    postrotate
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/zeoserver-vertebrates.pid)
+    endscript
+}
+
+${buildout:directory}/var/log/zeoserver-anthropology.log {
+    compress
+    rotate 10
+    daily
+    notifempty
+    size 10M
+    postrotate
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/zeoserver-anthropology.pid)
+    endscript
+}
+
+${buildout:directory}/var/log/zeoserver-projects.log {
+    compress
+    rotate 10
+    daily
+    notifempty
+    size 10M
+    postrotate
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/zeoserver-projects.pid)
+    endscript
+}
+
+${buildout:directory}/var/log/zeoserver-paleontology.log {
+    compress
+    rotate 10
+    daily
+    notifempty
+    size 10M
+    postrotate
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/zeoserver-paleontology.pid)
+    endscript
+}
+
+${buildout:directory}/var/log/zeoserver-geology.log {
+    compress
+    rotate 10
+    daily
+    notifempty
+    size 10M
+    postrotate
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/zeoserver-geology.pid)
+    endscript
+}
+
 
 ${buildout:directory}/var/log/supervisor*.log {
     compress

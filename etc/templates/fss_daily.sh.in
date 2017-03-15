@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-REPOSITORY="${fssdaily:backuppath}"
-INSTANCEPATH="${buildout:directory}"
-mkdir -p "$REPOSITORY"
-cd "$INSTANCEPATH/var"
-DATE="$(date "+%F")"
-tar czvf "$REPOSITORY/fss-$DATE.tgz"  fss_*_mars fss_*_global fss
-

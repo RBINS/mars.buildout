@@ -1,8 +1,1 @@
-./bin/instance1-anthropology restart
-./bin/instance1-cpb restart
-./bin/zeoserver-entomo restart
-./bin/instance1-geology restart
-./bin/instance1-invertebrates restart
-./bin/instance1-paleontology restart
-./bin/zeoserver-projects restart
-./bin/instance1-vertebrates restart
+./bin/supervisorctl restart instance1 instance1-anthropology instance1-geology instance1-entomo instance1-invertebrates instance1-paleontology instance1-projects instance1-vertebrates instance1-cpb

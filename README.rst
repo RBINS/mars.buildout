@@ -15,7 +15,9 @@ INSTALLING THIS PROJECT WITHOUT MINITAGE
     export CFLAGS="-I$prefix/include"
     mkdir tmp
     cd tmp
-    sudo apt-get install -y build-essential m4 libtool pkg-config autoconf gettext bzip2 groff man-db automake libsigc++-2.0-dev tcl8.5 git libssl-dev libxml2-dev libxslt1-dev libbz2-dev zlib1g-dev python-setuptools python-dev libjpeg62-dev libreadline-dev python-imaging wv poppler-utils libsqlite0-dev libgdbm-dev libdb-dev tcl8.5-dev tcl8.5-dev tcl8.4 tcl8.4-dev tk8.5-dev libsqlite3-dev
+    sudo apt-get install -y build-essential m4 libtool pkg-config autoconf gettext bzip2 groff man-db automake \\
+        libsigc++-2.0-dev git libssl-dev libxml2-dev libxslt1-dev libbz2-dev zlib1g-dev python-setuptools python-dev \\
+        libjpeg62-dev libreadline-dev python-pil wv poppler-utils libldap-dev
 
 For ldap support::
 
@@ -39,7 +41,7 @@ in ~/.buildout/default.cfg that egg cache & download cache point to the desired 
 Install project
 
     cd $mars
-    $prefix/bin/python bootstrap.py -dc buildout-(dev/prod/devinprod).cfg
+    $prefix/bin/python bootstrap.py
     bin/buildout -vvvvvNc -c buildout-(dev/prod/devinprod).cfg
 
 

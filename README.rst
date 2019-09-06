@@ -68,11 +68,6 @@ To develop your application, run the ``(minitage.)buildout-dev.cfg`` buildout, i
   * it has only one instance and not all the hassles from production.
 
 
-PRODUCTION MODE
----------------
-To make your application safe for production, run the ``(minitage.)buildout-prod.cfg`` buildout'.
-It extends this one with additionnal crontabs and backup scripts and some additionnal instances creation.
-
 
 BASE BUILDOUTS WHICH DO ONLY SCHEDULE PARTS FROM THERE & THERE
 -------------------------------------------------------------------
@@ -119,21 +114,6 @@ SYSTEM ADMINISTRATORS RELATED FILES
     |-- maintenance.cfg         -> Project maintenance settings (crons, logs)
     `-- settings.cfg            -> various settings (crons hours, hosts, installation paths, ports, passwords)
 
-
-REVERSE PROXY
---------------
-We generate two virtualhosts for a cliassical apache setup, mostly ready but feel free to copy/adapt.
-::
-    etc/apache/
-    |-- 100-mars.reverseproxy.conf     -> a vhost for ruse with a standalone plone (even with haproxy in front of.)
-    `-- apache.cfg
-    etc/templates/apache/
-    |-- 100-mars.reverseproxy.conf.in  -> Template for a vhost for ruse with a standalone plone (even with haproxy in front of.)
-
-In settings.cfg you have now some settings for declaring which host is your reverse proxy backend & the vhost mounting:
-    * hosts:zope-front / ports:zope-front                              -> zope front backend
-    * reverseproxy:host / reverseproxy:port / reverseproxy:mount-point -> host / port / mountpoint on the reverse proxy)
-
 CONFIGURATION TEMPLATES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ::
@@ -154,13 +134,21 @@ BACKENDS
     `-- etc/backends/zodb.cfg                  -> zodb configuration if any
 
 
-KGS FILE
-----------
-We provide a part to generate the etc/mars-kgs.cfg file.
-This will allow you to freeze software versions known to work with your project and make reproducible environment.
-This file will be generated the first time that you run buildout.
-To un it, just run bin/buildout -vvvvvvc <CONFIG_FILE> install kgs
-Then sync the content of the kgs file with ``etc/project/versions.cfg``.
+CREATE A NEW SITE
+-----------------
 
-
-.. vim:set ft=rst:
+add a configuration in sites/mysite.cfg
+extend it in buildout-prod.cfg (and, if necessary, in buildout-dev.cfg)
+add the process in high-availability.cfg
+add the vhost in vhost-mars.conf
+locally test the buildout
+run the buildout under production
+reload supervisor, start the services
+create a ssh tunnel towards site port
+change the admin password
+create marsadmin user
+create a plone site with Plone id
+install Mars component
+change site title
+import Mars/Ldap profile
+test ldap connection

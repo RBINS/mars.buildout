@@ -1,9 +1,9 @@
-==============================================================
+===============================
 BUILDOUT FOR mars DOCUMENTATION
-==============================================================
+===============================
 
-INSTALLING THIS PROJECT WITHOUT MINITAGE
------------------------------------------
+INSTALLING THIS PROJECT
+-----------------------
 ::
 
     mkdir workdir
@@ -44,29 +44,15 @@ Install project
     $prefix/bin/python bootstrap.py
     bin/buildout -vvvvvNc -c buildout-(dev/prod/devinprod).cfg
 
-
-CREATE A FIRST PLONESITE OBJECT
----------------------------------
-Just run your plone and install mars
-
-PLAYING WITH DATAFS & PROJECT DATABASES
--------------------------------------------
-- Upload the latest datafs from production to staging server::
-
-    bin/buildout -vNc <CONFIG>-prod.cfg install upload-datafs
-
-- Get the latest datafs from production to staging server::
-
-    bin/buildout -vNc <CONFIG> install get-datafs
+Then read the *Create a new site* section.
 
 
 DEVELOP MODE
----------------
-To develop your application, run the ``(minitage.)buildout-dev.cfg`` buildout, it extends this one but:
+------------
+To develop your application, run the ``buildout-dev.cfg`` buildout, it extends this one but:
   * it comes with development tools.
   * it configures the instance to be more verbose (debug mode & verbose security)
   * it has only one instance and not all the hassles from production.
-
 
 
 BASE BUILDOUTS WHICH DO ONLY SCHEDULE PARTS FROM THERE & THERE
@@ -80,31 +66,23 @@ Love to know that Minitage support includes xml libs, ldap, dbs; python, depende
 
 
 PLONE OFFICIAL BUILDOUTS INTEGRATION
---------------------------------------
+------------------------------------
 In ``etc/base.cfg``, we extends directly plone release versions & sources files.
 
 
 PROJECT SETTINGS
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 - Think you have the most important sections of this buildout configuration in etc/mars.cfg
 Set the project developement  specific settings there
 ::
 
     etc/project/
-    |-- mars.cfg       -> your project needs (packages, sources, products)
-    |-- sources.cfg          -> externals sources of your project:
-    |                           - Sources not packaged as python eggs.
-    |                           - Eggs Grabbed from svn, add here your develoment eggs.
-    |                           - Links to find distributions.
-    |-- patches.cfg          -> patches used on the project
-    |-- cluster.cfg          -> define new zope instances here & also their FileSystemStorage if any.
-    |-- newsletter.cfg       -> singing & dancing integration (new instance with clockserver, version pinning, fss if any)
-    |-- mars-kgs.cfg   -> Generated KGS for your project (minitage's printer or buildout.dumppickledversion)
-    `-- versions.cfg         -> minimal version pinning for installing your project
+    |-- plone.cfg ->
+    `-- versions.cfg -> minimal version pinning for installing your project
 
 
 SYSTEM ADMINISTRATORS RELATED FILES
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ::
 
     etc/init.d/                 -> various init script (eg supervisor)
@@ -124,6 +102,15 @@ CONFIGURATION TEMPLATES
     `-- logrotate.conf.template     -> logrotate configuration file template for your Zope logs
     `-- supervisor.initd            -> template for supervisor init script
 
+Setup start at boot
+-------------------
+
+    sudo su
+    cd /etc/init.d
+    ln -s /path/to/buildout/etc/init.d/supervisor.initd supervisor-mars
+    update-rc.d supervisor-mars defaults
+    exit
+
 
 BACKENDS
 ~~~~~~~~~~~
@@ -131,7 +118,6 @@ BACKENDS
 
     etc/backends/
     |-- etc/backends/zeo.cfg                   -> zeoserver configuration if any
-    `-- etc/backends/zodb.cfg                  -> zodb configuration if any
 
 
 CREATE A NEW SITE
@@ -152,3 +138,18 @@ install Mars component
 change site title
 import Mars/Ldap profile
 test ldap connection
+
+
+THE LIST OF SITES
+-----------------
+
+http://collections.naturalsciences.be/
+http://collections.naturalsciences.be/ssh-anthropology
+http://collections.naturalsciences.be/ssh-entomology
+http://collections.naturalsciences.be/ssh-paleontology/
+http://collections.naturalsciences.be/ssh-geology/
+http://collections.naturalsciences.be/ssh-invertebrates/
+http://collections.naturalsciences.be/ssh-vertebrates/
+http://collections.naturalsciences.be/ssh-projects/
+http://collections.naturalsciences.be/ssh-geology-bibliography/manage
+http://collections.naturalsciences.be/cpb/

@@ -4,6 +4,8 @@ BUILDOUT FOR mars DOCUMENTATION
 
 INSTALLING THIS PROJECT
 -----------------------
+
+
 ::
 
     mkdir workdir
@@ -11,8 +13,6 @@ INSTALLING THIS PROJECT
     prefix=$cwd/libs
     mars=$cwd/mars
     git clone ssh://git@github.com/RBINS/mars.buildout.git $mars
-    export LDFLAGS="-Wl,-rpath -Wl,$prefix/lib -L$prefix/lib"
-    export CFLAGS="-I$prefix/include"
     mkdir tmp
     cd tmp
     sudo apt-get install -y build-essential m4 libtool pkg-config autoconf gettext bzip2 groff man-db automake \\
@@ -23,18 +23,7 @@ For ldap support::
 
     apt-get install -y libldap2-dev libldap-2.4-2 libsasl2-dev
 
-
-Install a python with datetime patched::
-
-    apt-get install -y apt-build
-    ver="2.7.6"
-    wget http://python.org/ftp/python/$ver/Python-$ver.tgz
-    tar xzvf Python-$ver.tgz
-    cd Python-$ver
-    patch -Np1 < $mars/patches/py2.7-strftime-pre-1900.patch
-    ./configure --prefix=$prefix --enable-ipv6 --with-fpectl --enable-shared --enable-unicode=ucs4 && make && make install
-    cd ../..
-    rm -rf tmp
+Install the latest version of Python 2.7 in prefix directory
 
 in ~/.buildout/default.cfg that egg cache & download cache point to the desired cache directories
 
@@ -42,6 +31,7 @@ Install project
 
     cd $mars
     $prefix/bin/python bootstrap.py
+    touch etc/sys/settings.prod.cfg  # and edit it when necessary
     bin/buildout -vvvvvNc -c buildout-(dev/prod/devinprod).cfg
 
 Then read the *Create a new site* section.
@@ -123,10 +113,11 @@ BACKENDS
 CREATE A NEW SITE
 -----------------
 
-add a configuration in sites/mysite.cfg
+add a configuration file in etc/sites
 extend it in buildout-prod.cfg (and, if necessary, in buildout-dev.cfg)
 add the process in high-availability.cfg
 add the vhost in vhost-mars.conf
+add the site in scripts/restart-instances.sh
 locally test the buildout
 run the buildout under production
 reload supervisor, start the services
@@ -151,5 +142,5 @@ http://collections.naturalsciences.be/ssh-geology/
 http://collections.naturalsciences.be/ssh-invertebrates/
 http://collections.naturalsciences.be/ssh-vertebrates/
 http://collections.naturalsciences.be/ssh-projects/
-http://collections.naturalsciences.be/ssh-geology-bibliography/manage
+http://collections.naturalsciences.be/ssh-geology-bibliography/
 http://collections.naturalsciences.be/cpb/

@@ -134,13 +134,13 @@ test ldap connection
 THE LIST OF SITES
 -----------------
 
-http://collections.naturalsciences.be/
-http://collections.naturalsciences.be/ssh-anthropology
-http://collections.naturalsciences.be/ssh-entomology
-http://collections.naturalsciences.be/ssh-paleontology/
-http://collections.naturalsciences.be/ssh-geology/
-http://collections.naturalsciences.be/ssh-invertebrates/
-http://collections.naturalsciences.be/ssh-vertebrates/
-http://collections.naturalsciences.be/ssh-projects/
-http://collections.naturalsciences.be/ssh-geology-bibliography/
-http://collections.naturalsciences.be/cpb/
+- http://collections.naturalsciences.be/
+- http://collections.naturalsciences.be/ssh-anthropology
+- http://collections.naturalsciences.be/ssh-entomology
+- http://collections.naturalsciences.be/ssh-paleontology/
+- http://collections.naturalsciences.be/ssh-geology/
+- http://collections.naturalsciences.be/ssh-invertebrates/
+- http://collections.naturalsciences.be/ssh-vertebrates/
+- http://collections.naturalsciences.be/ssh-projects/
+- http://collections.naturalsciences.be/ssh-geology-bibliography/
+- http://collections.naturalsciences.be/cpb/

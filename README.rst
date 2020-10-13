@@ -5,6 +5,17 @@ BUILDOUT FOR mars DOCUMENTATION
 INSTALLING THIS PROJECT
 -----------------------
 
+Install a python with datetime patched::
+
+    apt-get install -y apt-build
+    ver="2.7.6"
+    wget http://python.org/ftp/python/$ver/Python-$ver.tgz
+    tar xzvf Python-$ver.tgz
+    cd Python-$ver
+    patch -Np1 < $mars/patches/py2.7-strftime-pre-1900.patch
+    ./configure --prefix=$prefix --enable-ipv6 --with-fpectl --enable-shared --enable-unicode=ucs4 && make && make install
+    cd ../..
+    rm -rf tmp
 
 ::
 

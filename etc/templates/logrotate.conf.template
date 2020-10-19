@@ -93,6 +93,17 @@ ${buildout:directory}/var/log/zeoserver-geology.log {
     endscript
 }
 
+${buildout:directory}/var/log/zeoserver-geology-archives.log {
+    compress
+    rotate 10
+    daily
+    notifempty
+    size 10M
+    postrotate
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/zeoserver-geology-archives.pid)
+    endscript
+}
+
 
 ${buildout:directory}/var/log/supervisor*.log {
     compress

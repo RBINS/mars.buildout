@@ -114,6 +114,67 @@ ${buildout:directory}/var/log/zeoserver-geology-archives.log {
 }
 
 
+${buildout:directory}/var/log/instance-plain-Z2.log
+${buildout:directory}/var/log/instance-plain.log
+${buildout:directory}/var/log/instance1-anthropology-Z2.log
+${buildout:directory}/var/log/instance1-anthropology.log
+${buildout:directory}/var/log/instance1-cpb-Z2.log
+${buildout:directory}/var/log/instance1-cpb.log
+${buildout:directory}/var/log/instance1-digit-Z2.log
+${buildout:directory}/var/log/instance1-digit.log
+${buildout:directory}/var/log/instance1-entomo-Z2.log
+${buildout:directory}/var/log/instance1-entomo.log
+${buildout:directory}/var/log/instance1-geology-archives-Z2.log
+${buildout:directory}/var/log/instance1-geology-archives.log
+${buildout:directory}/var/log/instance1-geology-biblio-Z2.log
+${buildout:directory}/var/log/instance1-geology-biblio.log
+${buildout:directory}/var/log/instance1-geology-Z2.log
+${buildout:directory}/var/log/instance1-geology.log
+${buildout:directory}/var/log/instance1-habitats-Z2.log
+${buildout:directory}/var/log/instance1-habitats.log
+${buildout:directory}/var/log/instance1-invertebrates-Z2.log
+${buildout:directory}/var/log/instance1-invertebrates.log
+${buildout:directory}/var/log/instance1-ltp-Z2.log
+${buildout:directory}/var/log/instance1-ltp.log
+${buildout:directory}/var/log/instance1-nagoya-Z2.log
+${buildout:directory}/var/log/instance1-nagoya.log
+${buildout:directory}/var/log/instance1-paleontology-Z2.log
+${buildout:directory}/var/log/instance1-paleontology.log
+${buildout:directory}/var/log/instance1-projects-Z2.log
+${buildout:directory}/var/log/instance1-projects.log
+${buildout:directory}/var/log/instance1-vertebrates-Z2.log
+${buildout:directory}/var/log/instance1-vertebrates.log
+${buildout:directory}/var/log/instance1-Z2.log
+${buildout:directory}/var/log/instance1.log
+${buildout:directory}/var/log/instance2-geology-Z2.log
+${buildout:directory}/var/log/instance2-geology.log {
+    su ${v:sys-user} ${v:sys-group}
+    compress
+    rotate 10
+    daily
+    notifempty
+    size 10M
+    postrotate
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-geology-archives.pid)      || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1.pid)                       || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-anthropology.pid)          || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-cpb.pid)                   || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-digit.pid)                 || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-entomo.pid)                || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-geology.pid)               || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-geology-archives.pid)      || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-geology-biblio.pid)        || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-habitats.pid)              || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-invertebrates.pid)         || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-ltp.pid)                   || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-nagoya.pid)                || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-paleontology.pid)          || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-projects.pid)              || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-vertebrates.pid)           || /bin/true
+    endscript
+}
+
+
 ${buildout:directory}/var/log/supervisor*.log {
     su ${v:sys-user} ${v:sys-group}
     compress

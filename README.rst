@@ -155,3 +155,12 @@ THE LIST OF SITES
 - http://collections.naturalsciences.be/ssh-projects/
 - http://collections.naturalsciences.be/ssh-geology-bibliography/
 - http://collections.naturalsciences.be/cpb/
+
+
+Deactivate LDAP plugins
+-----------------------
+
+bin/instance debug
+>>> app.Plone.acl_users.plugins._plugins = {key: [value for value in values if value != 'ldap-plugin'] for key, values in app.Plone.acl_users.plugins._plugins.items()}
+>>> import transaction
+>>> transaction.commit()

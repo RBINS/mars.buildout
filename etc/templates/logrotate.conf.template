@@ -126,6 +126,10 @@ ${buildout:directory}/var/log/instance1-entomo-Z2.log
 ${buildout:directory}/var/log/instance1-entomo.log
 ${buildout:directory}/var/log/instance1-geology-archives-Z2.log
 ${buildout:directory}/var/log/instance1-geology-archives.log
+${buildout:directory}/var/log/instance1-geology-biblio-maps-Z2.log
+${buildout:directory}/var/log/instance1-geology-biblio-maps.log
+${buildout:directory}/var/log/instance1-geology-biblio-natstones-Z2.log
+${buildout:directory}/var/log/instance1-geology-biblio-natstones.log
 ${buildout:directory}/var/log/instance1-geology-biblio-Z2.log
 ${buildout:directory}/var/log/instance1-geology-biblio.log
 ${buildout:directory}/var/log/instance1-geology-Z2.log
@@ -164,6 +168,8 @@ ${buildout:directory}/var/log/instance2-geology.log {
         /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-geology.pid)               || /bin/true
         /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-geology-archives.pid)      || /bin/true
         /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-geology-biblio.pid)        || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-geology-biblio-maps.pid)        || /bin/true
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-geology-biblio-natstones.pid)        || /bin/true
         /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-habitats.pid)              || /bin/true
         /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-invertebrates.pid)         || /bin/true
         /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1-ltp.pid)                   || /bin/true

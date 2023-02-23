@@ -33,3 +33,4 @@ var
 src.mrdeveloper/zopelib/zopelib.egg-info
 .idea
 abootstrap.py
+*.log

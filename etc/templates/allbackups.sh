@@ -1,11 +1,18 @@
 #!/usr/bin/env bash
 set +e
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 cd "${buildout:directory}"
+task=${task} && f="var/$task" && rm -f "$f"
+timeit() { echo "$(date -Isec): $@" >> $f; }
 instances="${instances}"
+mainintance="${mainintance}"
 COMMANDDRYRUN=""
+timeit
 if [[ -n "$DRYRUN" ]];then COMMANDDRYRUN="echo";fi
 for i in $instances;do
-        $COMMANDDRYRUN bin/backup-$i && $COMMANDDRYRUN touch var/backup-$i-done
+        $COMMANDDRYRUN bin/backup-$i && timeit $task-$i-done
 done
-$COMMANDDRYRUN bin/backup && $COMMANDDRYRUN touch var/backup-done
-
+if [ "x$mainintance" = "x1" ];then
+   $COMMANDDRYRUN bin/backup && timeit $task-done
+fi
+timeit

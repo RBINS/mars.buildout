@@ -10,9 +10,9 @@ COMMANDDRYRUN=""
 timeit
 if [[ -n "$DRYRUN" ]];then COMMANDDRYRUN="echo";fi
 for i in $instances;do
-        $COMMANDDRYRUN bin/supervisorctl restart instance1-$i && timeit $task-$i-done
+        $COMMANDDRYRUN bin/zeopack-$i && timeit $task-$i-done
 done
 if [ "x$mainintance" = "x1" ];then
-    $COMMANDDRYRUN bin/supervisorctl restart instance1 && timeit $task-done
+    $COMMANDDRYRUN bin/zeopack && timeit task-done
 fi
 timeit

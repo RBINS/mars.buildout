@@ -10,9 +10,9 @@ COMMANDDRYRUN=""
 timeit
 if [[ -n "$DRYRUN" ]];then COMMANDDRYRUN="echo";fi
 for i in $instances;do
-        $COMMANDDRYRUN bin/backup-$i && timeit $task-$i-done
+        timeit $task-$i-start && $COMMANDDRYRUN bin/backup-$i && timeit $task-$i-done
 done
 if [ "x$mainintance" = "x1" ];then
-   $COMMANDDRYRUN bin/backup && timeit $task-done
+   timeit $task-start && $COMMANDDRYRUN bin/backup && timeit $task-done
 fi
 timeit

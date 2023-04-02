@@ -164,3 +164,8 @@ bin/instance debug
 >>> app.Plone.acl_users.plugins._plugins = {key: [value for value in values if value != 'ldap-plugin'] for key, values in app.Plone.acl_users.plugins._plugins.items()}
 >>> import transaction
 >>> transaction.commit()
+
+Bootstrap in prod
+------------------
+/data/libs/python/bin/python bootstrap.py -c "buildout|buildout-devinprodbootstrap.cfg" --buildout-version=2.13.3 --setuptools-version=44.1.0
+

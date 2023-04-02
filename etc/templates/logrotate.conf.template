@@ -128,6 +128,8 @@ ${buildout:directory}/var/log/instance1-geology-archives-Z2.log
 ${buildout:directory}/var/log/instance1-geology-archives.log
 ${buildout:directory}/var/log/instance1-geology-biblio-maps-Z2.log
 ${buildout:directory}/var/log/instance1-geology-biblio-maps.log
+${buildout:directory}/var/log/instance1-*debug-Z2.log
+${buildout:directory}/var/log/instance1-*debug.log
 ${buildout:directory}/var/log/instance1-geology-biblio-natstones-Z2.log
 ${buildout:directory}/var/log/instance1-geology-biblio-natstones.log
 ${buildout:directory}/var/log/instance1-geology-biblio-Z2.log

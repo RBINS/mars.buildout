@@ -165,7 +165,28 @@ bin/instance debug
 >>> import transaction
 >>> transaction.commit()
 
-Bootstrap in prod
-------------------
-/data/libs/python/bin/python bootstrap.py -c "buildout|buildout-devinprodbootstrap.cfg" --buildout-version=2.13.3 --setuptools-version=44.1.0
+Bootstrap
+------------
+Since 2023, there is a chicken and egg problem on initial bootstrap that needs some eggs to be preinstalled on sitepackages for buildout to run once.
+The idea is to install them, then uninstall them because that will also break buildout recipes namespace import scheme when instance launchers are called.
+Upon all eggs except the neccessary to make buildout are uninstalled from site-packages, you will need to make buildout run a final time for everything to work.
+::
+
+    export TMPDIR=$(pwd)/var/tmp
+    /data/libs/python/bin/python -m pip install virtualenv
+    /data/libs/python/bin/python2 -m virtualenv --python=python2 --always-copy --system-site-packages venv
+    sc='import sys\ntry:\n    sys.setdefaultencoding("utf-8")\nexcept AttributeError:\n    reload(sys);sys.setdefaultencoding("utf-8")\n\n'
+    printf "$sc">/data/libs/python/lib/python2.7/site-packages/sitecustomize.py  # AS ROOT is the initial python is owned by root
+    . venv/bin/activate
+    printf "$sc">venv/lib/python2.7/site-packages/sitecustomize.py
+    eggs="zc.buildout zodbpickle plone.recipe.zeoserver setuptools zc.recipe.egg mr.developer"
+    pip install --force $(for i in $eggs;do echo "$i==$(echo $(grep -E "^$i\s+=\s+" etc/project/versions.cfg |awk -F= '{print $2}'))";done)
+    buildout bootstrap -c "buildout-dev.cfg|buildout-prod.cfg|buildout-devinprod.cfg" --buildout-version=$bver --setuptools-version=$sver
+    # make buildout run once completly and without error
+    bin/buildout -vvvNc $config
+    # then
+    pip uninstall -y btrees concurrent mr.developer persistent plone.recipe.zeoserver transaction zc.lockfile zc.recipe.egg zconfig zdaemon zeo zodb zodb3 zodbpickle zope.interface zope.mkzeoinstance zopeundo
+    bin/buildout -vvvNc $config
+
+
 
